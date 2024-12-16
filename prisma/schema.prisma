@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  nickName  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime 
+  interactions Interaction[]
+  reviews       Review[]
+
+  @@map("users")
+}
+
+model Spot {
+  spotId    Int          @id @default(autoincrement())
+  spotName  String          
+  region    String
+  like      Int          @default(0)
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+  reviews   Review[]
+  interaction Interaction?
+  categorys Category[]
+
+  @@map("spots")
+}
+
+model Review {
+  reviewId  Int          @id @default(autoincrement())
+  spotId    Int          @map("spot_spotId")
+  userId    Int          @map("user_userId")
+  rate      Int          
+  content   String       @db.Text       
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+  spot      Spot         @relation(fields: [spotId], references: [spotId])
+  user      User         @relation(fields: [userId], references: [userId])
+
+  @@map("reviews")
+}
+
+model Category {
+  categoryId  Int          @id @default(autoincrement())
+  spotId      Int          @map("spot_spotId")
+  Category    String           
+  spot        Spot         @relation(fields: [spotId], references: [spotId])
+
+  @@map("categorys")
+}
+
+model Interaction {
+  interactionId  Int            @id @default(autoincrement())
+  spotId      Int               @map("spot_spotId") @unique
+  userId      Int               @map("user_userId") 
+  type        InteractionType   @default(LIKE)
+  spot        Spot              @relation(fields: [spotId], references: [spotId])
+  user        User              @relation(fields: [userId], references: [userId])
+
+  @@map("interactions")
+}
+enum InteractionType {
+  LIKE
+  BOOKMARK
+}

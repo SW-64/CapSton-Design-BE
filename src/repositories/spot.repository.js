@@ -38,6 +38,15 @@ class SpotRepository {
       },
     });
   };
+
+  // 명소 삭제
+  deleteSpot = async (spotId) => {
+    return await this.prisma.spot.delete({
+      where: {
+        spotId: spotId,
+      },
+    });
+  };
 }
 
 export default SpotRepository;

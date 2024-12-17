@@ -46,6 +46,20 @@ class SpotService {
       like: getOneSpot.like,
     };
   };
+
+  // 명소 삭제
+  deleteSpot = async (spotId) => {
+    const getOneSpot = await this.spotRepository.getOneSpot(spotId);
+    //spotId가 존재하지 않을 때 에러반환
+    if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
+    const deleteSpot = await this.spotRepository.deleteSpot(spotId);
+    return {
+      spotId: deleteSpot.spotId,
+      spotName: deleteSpot.spotName,
+      region: deleteSpot.region,
+      like: deleteSpot.like,
+    };
+  };
 }
 
 export default SpotService;

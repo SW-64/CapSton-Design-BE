@@ -49,6 +49,21 @@ class SpotController {
       next(error);
     }
   };
+
+  // 명소 삭제
+  deleteSpot = async (req, res, next) => {
+    try {
+      const { spotId } = req.params;
+      const deleteSpot = await this.spotService.deleteSpot(+spotId);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '명소 삭제 성공',
+        data: deleteSpot,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default SpotController;

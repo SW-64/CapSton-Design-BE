@@ -9,7 +9,7 @@ class SpotController {
     try {
       const { spotName, region } = req.body;
       const setSpot = await this.spotService.setSpot(spotName, region);
-      return res.status(HTTP_STATUS.OK).json({
+      return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
         message: '명소 등록 성공',
         data: setSpot,
@@ -39,7 +39,6 @@ class SpotController {
   getOneSpot = async (req, res, next) => {
     try {
       const { spotId } = req.params;
-      console.log(spotId);
       const getOneSpot = await this.spotService.getOneSpot(+spotId);
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,

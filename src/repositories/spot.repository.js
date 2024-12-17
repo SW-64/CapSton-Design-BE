@@ -29,6 +29,15 @@ class SpotRepository {
       },
     });
   };
+
+  // 명소 이름으로 명소 찾기
+  findSpotName = async (spotName) => {
+    return await this.prisma.spot.findUnique({
+      where: {
+        spotName: spotName,
+      },
+    });
+  };
 }
 
 export default SpotRepository;

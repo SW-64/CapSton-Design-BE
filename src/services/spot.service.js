@@ -2,8 +2,8 @@ class SpotService {
   constructor(spotRepository) {
     this.spotRepository = spotRepository;
   }
+  // 명소 등록
   setSpot = async (spotName, region) => {
-    //만약 전부 0원이라면 랭킹정보가 없다고 나오게 하길
     const setSpot = await this.spotRepository.setSpot(spotName, region);
     console.log('he');
 
@@ -12,6 +12,31 @@ class SpotService {
       spotName: setSpot.spotName,
       region: setSpot.region,
       like: setSpot.like,
+    };
+  };
+
+  // 전체 명소 조회
+  getAllSpot = async (region) => {
+    const getAllSpot = await this.spotRepository.getAllSpot(region);
+
+    const AllSpot = getAllSpot.map((spot) => ({
+      spotId: spot.spotId,
+      spotName: spot.spotName,
+      region: spot.region,
+      like: spot.like,
+    }));
+    return AllSpot;
+  };
+
+  // 상세 명소 조회
+  getOneSpot = async (spotId) => {
+    const getOneSpot = await this.spotRepository.getOneSpot(spotId);
+
+    return {
+      spotId: getOneSpot.spotId,
+      spotName: getOneSpot.spotName,
+      region: getOneSpot.region,
+      like: getOneSpot.like,
     };
   };
 }

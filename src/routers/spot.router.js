@@ -11,4 +11,12 @@ const spotController = new SpotController(spotService);
 // 명소 등록
 spotRouter.post('/', spotController.setSpot);
 
+// 전체 명소 조회
+spotRouter.get('/', spotController.getAllSpot);
+
+// 상세 명소 조회
+spotRouter.get('/:spotId', spotController.getOneSpot);
+
+// 명소 삭제
+spotRouter.delete('/:spotId', spotController.deleteSpot);
 export { spotRouter };

@@ -14,67 +14,69 @@ datasource db {
 }
 
 model User {
-  userId    Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String
-  nickName  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  deletedAt DateTime 
+  userId       Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  name         String
+  nickName     String
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  deletedAt    DateTime
   interactions Interaction[]
-  reviews       Review[]
+  reviews      Review[]
 
   @@map("users")
 }
 
 model Spot {
-  spotId    Int          @id @default(autoincrement())
-  spotName  String          
-  region    String
-  like      Int          @default(0)
-  createdAt DateTime     @default(now()) @map("created_at")
-  updatedAt DateTime     @updatedAt @map("updated_at")
-  reviews   Review[]
+  spotId      Int          @id @default(autoincrement())
+  spotName    String
+  region      String
+  like        Int          @default(0)
+  imageUrl    Json?        @map("image_url")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  reviews     Review[]
   interaction Interaction?
-  categorys Category[]
+  categorys   Category[]
 
   @@map("spots")
 }
 
 model Review {
-  reviewId  Int          @id @default(autoincrement())
-  spotId    Int          @map("spot_spotId")
-  userId    Int          @map("user_userId")
-  rate      Int          
-  content   String       @db.Text       
-  createdAt DateTime     @default(now()) @map("created_at")
-  updatedAt DateTime     @updatedAt @map("updated_at")
-  spot      Spot         @relation(fields: [spotId], references: [spotId])
-  user      User         @relation(fields: [userId], references: [userId])
+  reviewId  Int      @id @default(autoincrement())
+  spotId    Int      @map("spot_spotId")
+  userId    Int      @map("user_userId")
+  rate      Int
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  spot      Spot     @relation(fields: [spotId], references: [spotId])
+  user      User     @relation(fields: [userId], references: [userId])
 
   @@map("reviews")
 }
 
 model Category {
-  categoryId  Int          @id @default(autoincrement())
-  spotId      Int          @map("spot_spotId")
-  Category    String           
-  spot        Spot         @relation(fields: [spotId], references: [spotId])
+  categoryId Int    @id @default(autoincrement())
+  spotId     Int    @map("spot_spotId")
+  Category   String
+  spot       Spot   @relation(fields: [spotId], references: [spotId])
 
   @@map("categorys")
 }
 
 model Interaction {
-  interactionId  Int            @id @default(autoincrement())
-  spotId      Int               @map("spot_spotId") @unique
-  userId      Int               @map("user_userId") 
-  type        InteractionType   @default(LIKE)
-  spot        Spot              @relation(fields: [spotId], references: [spotId])
-  user        User              @relation(fields: [userId], references: [userId])
+  interactionId Int             @id @default(autoincrement())
+  spotId        Int             @unique @map("spot_spotId")
+  userId        Int             @map("user_userId")
+  type          InteractionType @default(LIKE)
+  spot          Spot            @relation(fields: [spotId], references: [spotId])
+  user          User            @relation(fields: [userId], references: [userId])
 
   @@map("interactions")
 }
+
 enum InteractionType {
   LIKE
   BOOKMARK

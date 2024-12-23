@@ -3,11 +3,13 @@ class SpotRepository {
     this.prisma = prisma;
   }
   // 명소 등록
-  setSpot = async (spotName, region) => {
+  setSpot = async (spotName, region, imageUrl) => {
+    console.log(imageUrl);
     return await this.prisma.spot.create({
       data: {
         spotName: spotName,
         region: region,
+        imageUrl: imageUrl,
       },
     });
   };
@@ -32,7 +34,7 @@ class SpotRepository {
 
   // 명소 이름으로 명소 찾기
   findSpotName = async (spotName) => {
-    return await this.prisma.spot.findUnique({
+    return await this.prisma.spot.findFirst({
       where: {
         spotName: spotName,
       },

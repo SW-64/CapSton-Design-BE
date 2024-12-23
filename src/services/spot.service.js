@@ -5,18 +5,23 @@ class SpotService {
     this.spotRepository = spotRepository;
   }
   // 명소 등록
-  setSpot = async (spotName, region) => {
+  setSpot = async (spotName, region, imageUrl) => {
     // 중복되는 명소 이름이 있을때 에러반환
     const existedSpot = await this.spotRepository.findSpotName(spotName);
     if (existedSpot)
       throw new BadRequestError('중복되는 명소 이름이 있습니다.');
 
-    const setSpot = await this.spotRepository.setSpot(spotName, region);
+    const setSpot = await this.spotRepository.setSpot(
+      spotName,
+      region,
+      imageUrl,
+    );
     return {
       spotId: setSpot.spotId,
       spotName: setSpot.spotName,
       region: setSpot.region,
       like: setSpot.like,
+      imageUrl: setSpot.imageUrl,
     };
   };
 
@@ -29,6 +34,7 @@ class SpotService {
       spotName: spot.spotName,
       region: spot.region,
       like: spot.like,
+      imageUrl: spot.imageUrl,
     }));
     return AllSpot;
   };
@@ -44,6 +50,7 @@ class SpotService {
       spotName: getOneSpot.spotName,
       region: getOneSpot.region,
       like: getOneSpot.like,
+      imageUrl: spot.imageUrl,
     };
   };
 

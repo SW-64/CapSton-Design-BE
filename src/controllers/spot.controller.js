@@ -7,8 +7,14 @@ class SpotController {
   // 명소 등록
   setSpot = async (req, res, next) => {
     try {
+      const imageUrl = req.files[0].location;
       const { spotName, region } = req.body;
-      const setSpot = await this.spotService.setSpot(spotName, region);
+      console.log(imageUrl);
+      const setSpot = await this.spotService.setSpot(
+        spotName,
+        region,
+        imageUrl,
+      );
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
         message: '명소 등록 성공',

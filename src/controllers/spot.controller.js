@@ -1,9 +1,8 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
+import SpotService from '../services/spot.service.js';
 
 class SpotController {
-  constructor(spotService) {
-    this.spotService = spotService;
-  }
+  spotService = new SpotService();
   // 명소 등록
   setSpot = async (req, res, next) => {
     try {

@@ -1,9 +1,8 @@
 import { NotFoundError } from '../errors/http.error.js';
+import SpotRepository from '../repositories/spot.repository.js';
 
 class SpotService {
-  constructor(spotRepository) {
-    this.spotRepository = spotRepository;
-  }
+  spotRepository = new SpotRepository();
   // 명소 등록
   setSpot = async (spotName, region, imageUrl) => {
     // 중복되는 명소 이름이 있을때 에러반환

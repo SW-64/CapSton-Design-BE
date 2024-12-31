@@ -67,6 +67,29 @@ class SpotService {
       like: deleteSpot.like,
     };
   };
+
+  // 명소 북마크 등록
+  setBookmark = async (spotId) => {
+    const setBookmark = await this.spotRepository.setBookmark(spotId);
+
+    return {
+      spotId: setBookmark.spotId,
+      userId: setBookmark.userId,
+      type: setBookmark.type,
+    };
+  };
+
+  // 명소 북마크 조회
+  getBookmark = async (spotId) => {
+    const getBookmark = await this.spotRepository.getBookmark(spotId);
+
+    const AllSpot = getBookmark.map((spot) => ({
+      spotId: spot.spotId,
+      userId: spot.userId,
+      type: spot.type,
+    }));
+    return AllSpot;
+  };
 }
 
 export default SpotService;

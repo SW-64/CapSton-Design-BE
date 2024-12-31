@@ -21,8 +21,8 @@ spotRouter.get('/:spotId', spotController.getOneSpot);
 // 명소 삭제
 spotRouter.delete('/:spotId', spotController.deleteSpot);
 
-// // 명소 북마크 등록
-// spotRouter.post('/:spotId/bookmark', spotController.setBookmark);
+// 명소 북마크 등록
+spotRouter.post('/:spotId/bookmark', spotController.setBookmark);
 
 // // 명소 북마크 조회
 // spotRouter.get('/:spotId/bookmark', spotController.getBookmark);

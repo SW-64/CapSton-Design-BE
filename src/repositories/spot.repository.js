@@ -49,6 +49,15 @@ class SpotRepository {
       },
     });
   };
+
+  // 명소 북마크 등록
+  setBookmark = async (spotId) => {
+    return await this.prisma.interaction.create({
+      where: {
+        spotName: spotName,
+      },
+    });
+  };
 }
 
 export default SpotRepository;

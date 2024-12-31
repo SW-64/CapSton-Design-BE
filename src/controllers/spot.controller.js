@@ -70,6 +70,36 @@ class SpotController {
       next(error);
     }
   };
+
+  // 명소 북마크 등록
+  setBookmark = async (req, res, next) => {
+    try {
+      const { spotId } = req.params;
+      const setBookmark = await this.spotService.setBookmark(+spotId);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '명소 북마크 등록 성공',
+        data: setBookmark,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // 명소 북마크 조회
+  setBookmark = async (req, res, next) => {
+    try {
+      const { spotId } = req.params;
+      const getBookmark = await this.spotService.getBookmark(+spotId);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '명소 북마크 조회 성공',
+        data: getBookmark,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default SpotController;

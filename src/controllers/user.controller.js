@@ -1,7 +1,3 @@
-class UsertController {
-  constructor(userService) {
-    this.spotService = spotService;
-  }
-}
+class UsertController {}
 
 export default UsertController;

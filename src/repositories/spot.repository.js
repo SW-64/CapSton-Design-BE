@@ -1,11 +1,10 @@
+import { prisma } from '../utils/prisma.util.js';
+
 class SpotRepository {
-  constructor(prisma) {
-    this.prisma = prisma;
-  }
   // 명소 등록
   setSpot = async (spotName, region, imageUrl) => {
     console.log(imageUrl);
-    return await this.prisma.spot.create({
+    return await prisma.spot.create({
       data: {
         spotName: spotName,
         region: region,
@@ -16,7 +15,7 @@ class SpotRepository {
 
   // 전체 명소 조회
   getAllSpot = async (region) => {
-    return await this.prisma.spot.findMany({
+    return await prisma.spot.findMany({
       where: {
         region: region,
       },
@@ -25,7 +24,7 @@ class SpotRepository {
 
   // 상세 명소 조회
   getOneSpot = async (spotId) => {
-    return await this.prisma.spot.findUnique({
+    return await prisma.spot.findUnique({
       where: {
         spotId: spotId,
       },
@@ -34,7 +33,7 @@ class SpotRepository {
 
   // 명소 이름으로 명소 찾기
   findSpotName = async (spotName) => {
-    return await this.prisma.spot.findFirst({
+    return await prisma.spot.findFirst({
       where: {
         spotName: spotName,
       },
@@ -43,7 +42,7 @@ class SpotRepository {
 
   // 명소 삭제
   deleteSpot = async (spotId) => {
-    return await this.prisma.spot.delete({
+    return await prisma.spot.delete({
       where: {
         spotId: spotId,
       },
@@ -52,7 +51,7 @@ class SpotRepository {
 
   // 명소 북마크 등록
   setBookmark = async (spotId) => {
-    return await this.prisma.interaction.create({
+    return await prisma.interaction.create({
       where: {
         spotName: spotName,
       },

@@ -1,10 +1,10 @@
-import 'dotenv/config';
 import express from 'express';
 import { apiRouter } from './routers/index.js';
 import { globalErrorHandler } from './middlewares/error-handler.middleware.js';
+import { SERVER_PORT } from './constants/env.constant.js';
 
 const app = express();
-const port = process.env.SERVER_PORT;
+const port = SERVER_PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

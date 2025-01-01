@@ -9,19 +9,25 @@ import {
   S3Client,
   S3ServiceException,
 } from '@aws-sdk/client-s3';
+import {
+  AWS_ACCESS_KEY_ID,
+  AWS_BUCKET_NAME,
+  AWS_REGION,
+  AWS_SECRET_KEY,
+} from '../constants/env.constant.js';
 
 // const allowedExtensions = ['.png', '.jpg', '.jpeg', '.bmp'];
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
+  region: AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_KEY,
   },
 });
 const imageUploader = multer({
   storage: multerS3({
     s3: s3Client,
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: AWS_BUCKET_NAME,
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },

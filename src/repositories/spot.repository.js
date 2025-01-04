@@ -2,22 +2,37 @@ import { prisma } from '../utils/prisma.util.js';
 
 class SpotRepository {
   // 명소 등록
-  setSpot = async (spotName, region, imageUrl) => {
+  setSpot = async (spotName, districtId, imageUrl) => {
     console.log(imageUrl);
     return await prisma.spot.create({
       data: {
         spotName: spotName,
-        region: region,
+        districtId: districtId,
         imageUrl: imageUrl,
       },
     });
   };
 
-  // 전체 명소 조회
-  getAllSpot = async (region) => {
+  // 해당 도시 전체 명소 조회
+  getAllDistrictSpot = async (cityName) => {
     return await prisma.spot.findMany({
       where: {
-        region: region,
+        district: {
+          city: {
+            cityName, // cityName에 해당하는 모든 district의 spot
+          },
+        },
+      },
+      include: {
+        district: true,
+      },
+    });
+  };
+  //해당 행정구역 전체 명소 조회
+  getOneDistrictSpot = async (districtId) => {
+    return await prisma.spot.findMany({
+      where: {
+        districtId,
       },
     });
   };
@@ -127,6 +142,25 @@ class SpotRepository {
       //     },
       //   },
       // },
+    });
+  };
+
+  // 대도시 조회
+  findCity = async (cityName) => {
+    return await prisma.city.findFirst({
+      where: {
+        cityName,
+      },
+    });
+  };
+
+  //행정구역 조회
+  findDistrict = async (cityId, districtName) => {
+    return await prisma.district.findFirst({
+      where: {
+        cityId,
+        districtName,
+      },
     });
   };
 }

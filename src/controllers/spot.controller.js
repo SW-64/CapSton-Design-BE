@@ -7,11 +7,12 @@ class SpotController {
   setSpot = async (req, res, next) => {
     try {
       const imageUrl = req.files[0].location;
-      const { spotName, region } = req.body;
+      const { spotName, cityName, districtName } = req.body;
       console.log(imageUrl);
       const setSpot = await this.spotService.setSpot(
         spotName,
-        region,
+        cityName,
+        districtName,
         imageUrl,
       );
       return res.status(HTTP_STATUS.CREATED).json({
@@ -24,16 +25,33 @@ class SpotController {
     }
   };
 
-  //전체 명소 조회
-  getAllSpot = async (req, res, next) => {
+  //해당 도시 전체 명소 조회
+  getAllDistrictSpot = async (req, res, next) => {
     try {
-      const { region } = req.body;
-      const getAllSpot = await this.spotService.getAllSpot(region);
-      console.log(getAllSpot);
+      const { cityName } = req.body;
+      const getAllDistrictSpot =
+        await this.spotService.getAllDistrictSpot(cityName);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '해당 도시 전체 명소 조회 성공',
+        data: getAllDistrictSpot,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //해당 행정구역 전체 명소 조회
+  getOneDistrictSpot = async (req, res, next) => {
+    try {
+      const { districtName } = req.body;
+      const getOneDistrictSpot =
+        await this.spotService.getOneDistrictSpot(districtName);
+      console.log(getOneDistrictSpot);
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
         message: '전체 명소 조회 성공',
-        data: getAllSpot,
+        data: getOneDistrictSpot,
       });
     } catch (error) {
       next(error);

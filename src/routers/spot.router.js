@@ -15,11 +15,14 @@ spotRouter.get('/bookmark', spotController.getBookmark);
 // 명소 등록
 spotRouter.post('/', imageUploader.array('image', 10), spotController.setSpot);
 
-// 전체 명소 조회
-spotRouter.get('/', spotController.getAllSpot);
+// 해당 도시 전체 명소 조회
+spotRouter.get('/', spotController.getAllDistrictSpot);
 
-// 상세 명소 조회
-spotRouter.get('/:spotId', spotController.getOneSpot);
+// 해당 행정구역 전체 명소 조회
+spotRouter.get('/:spotId', spotController.getOneDistrictSpot);
+
+// 해당 행정구역 전체 명소 조회
+spotRouter.get('/:spotId', spotController.getOneDistrictSpot);
 
 // 명소 삭제
 spotRouter.delete('/:spotId', spotController.deleteSpot);

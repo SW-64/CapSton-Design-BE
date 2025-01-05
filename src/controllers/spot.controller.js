@@ -3,60 +3,6 @@ import SpotService from '../services/spot.service.js';
 
 class SpotController {
   spotService = new SpotService();
-  // 명소 등록
-  setSpot = async (req, res, next) => {
-    try {
-      const imageUrl = req.files[0].location;
-      const { spotName, cityName, districtName } = req.body;
-      console.log(imageUrl);
-      const setSpot = await this.spotService.setSpot(
-        spotName,
-        cityName,
-        districtName,
-        imageUrl,
-      );
-      return res.status(HTTP_STATUS.CREATED).json({
-        status: HTTP_STATUS.CREATED,
-        message: '명소 등록 성공',
-        data: setSpot,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  //해당 도시 전체 명소 조회
-  getAllDistrictSpot = async (req, res, next) => {
-    try {
-      const { cityName } = req.body;
-      const getAllDistrictSpot =
-        await this.spotService.getAllDistrictSpot(cityName);
-      return res.status(HTTP_STATUS.OK).json({
-        status: HTTP_STATUS.OK,
-        message: '해당 도시 전체 명소 조회 성공',
-        data: getAllDistrictSpot,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  //해당 행정구역 전체 명소 조회
-  getOneDistrictSpot = async (req, res, next) => {
-    try {
-      const { districtName } = req.body;
-      const getOneDistrictSpot =
-        await this.spotService.getOneDistrictSpot(districtName);
-      console.log(getOneDistrictSpot);
-      return res.status(HTTP_STATUS.OK).json({
-        status: HTTP_STATUS.OK,
-        message: '전체 명소 조회 성공',
-        data: getOneDistrictSpot,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
 
   //상세 명소 조회
   getOneSpot = async (req, res, next) => {

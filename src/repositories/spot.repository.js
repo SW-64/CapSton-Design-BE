@@ -1,56 +1,19 @@
 import { prisma } from '../utils/prisma.util.js';
 
 class SpotRepository {
-  // 명소 등록
-  setSpot = async (spotName, districtId, imageUrl) => {
-    console.log(imageUrl);
-    return await prisma.spot.create({
-      data: {
-        spotName: spotName,
-        districtId: districtId,
-        imageUrl: imageUrl,
-      },
-    });
-  };
-
-  // 해당 도시 전체 명소 조회
-  getAllDistrictSpot = async (cityName) => {
-    return await prisma.spot.findMany({
-      where: {
-        district: {
-          city: {
-            cityName, // cityName에 해당하는 모든 district의 spot
-          },
-        },
-      },
-      include: {
-        district: true,
-      },
-    });
-  };
-  //해당 행정구역 전체 명소 조회
-  getOneDistrictSpot = async (districtId) => {
-    return await prisma.spot.findMany({
-      where: {
-        districtId,
-      },
-    });
-  };
-
   // 상세 명소 조회
   getOneSpot = async (spotId) => {
     return await prisma.spot.findUnique({
       where: {
         spotId: spotId,
       },
-    });
-  };
-
-  // 명소 이름으로 명소 찾기
-  findSpotName = async (spotName) => {
-    return await prisma.spot.findFirst({
-      where: {
-        spotName: spotName,
+      include: {
+        district: {
+          select: {
+            districtId: true,
+            cityId: true,
+          },
+        },
       },
     });
   };
@@ -142,25 +105,6 @@ class SpotRepository {
       //     },
       //   },
       // },
-    });
-  };
-
-  // 대도시 조회
-  findCity = async (cityName) => {
-    return await prisma.city.findFirst({
-      where: {
-        cityName,
-      },
-    });
-  };
-
-  //행정구역 조회
-  findDistrict = async (cityId, districtName) => {
-    return await prisma.district.findFirst({
-      where: {
-        cityId,
-        districtName,
-      },
     });
   };
 }

@@ -1,5 +1,5 @@
 import SpotController from '../controllers/spot.controller.js';
-import imageUploader from '../middlewares/image-upload.middleware.js';
+import CityRepository from '../repositories/city.repository.js';
 import SpotRepository from '../repositories/spot.repository.js';
 import SpotService from '../services/spot.service.js';
 import { prisma } from '../utils/prisma.util.js';
@@ -12,17 +12,8 @@ const spotController = new SpotController(spotService);
 // 명소 북마크 조회
 spotRouter.get('/bookmark', spotController.getBookmark);
 
-// 명소 등록
-spotRouter.post('/', imageUploader.array('image', 10), spotController.setSpot);
-
-// 해당 도시 전체 명소 조회
-spotRouter.get('/', spotController.getAllDistrictSpot);
-
-// 해당 행정구역 전체 명소 조회
-spotRouter.get('/:spotId', spotController.getOneDistrictSpot);
-
-// 해당 행정구역 전체 명소 조회
-spotRouter.get('/:spotId', spotController.getOneDistrictSpot);
+// 상세 명소 조회
+spotRouter.get('/:spotId', spotController.getOneSpot);
 
 // 명소 삭제
 spotRouter.delete('/:spotId', spotController.deleteSpot);

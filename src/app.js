@@ -14,6 +14,11 @@ app.use(globalErrorHandler);
 app.get('/', (req, res) => {
   return res.json('hello world');
 });
-app.listen(port, async () => {
+const server = app.listen(port, async () => {
   console.log(`Server is listening on ${port}`);
 });
+
+export default app; // app을 default export로 변경
+/* 
+export {server} ;
+*/

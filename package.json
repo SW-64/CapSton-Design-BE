@@ -6,6 +6,9 @@
   "author": "SW-64 <ettjddns6@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "jest": {
+    "transform": {}
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.717.0",
     "@faker-js/faker": "^9.3.0",
@@ -19,14 +22,17 @@
     "prisma": "^6.0.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0"
   },
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "initial-seed": "npx sequelize-cli db:seed:all"
+    "initial-seed": "npx sequelize-cli db:seed:all",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   }
 }

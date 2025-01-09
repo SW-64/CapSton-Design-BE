@@ -49,7 +49,7 @@ class AuthService {
     const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
       expiresIn: '12h',
     });
-    console.log(accessToken);
+    const tokenToRedis = await this.authRepository.tokenToRedis(accessToken);
     return accessToken;
   };
 }

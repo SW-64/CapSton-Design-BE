@@ -15,7 +15,7 @@ const elasticachePort = ELASTICACHE_PORT;
 const elasticacheUser = ELASTICACHE_USER;
 const elasticachePassword = ELASTICACHE_PASSWORD;
 const client = await createClient({
-  url: `redis://${elasticacheUser}:${elasticachePassword}@${elasticacheHost}:${elasticachePort}`,
+  url: `redis://:${elasticachePassword}@${elasticacheHost}:${elasticachePort}`,
 });
 console.log('before connect redis');
 await client.connect();

@@ -1,7 +1,26 @@
 import express from 'express';
 import { apiRouter } from './routers/index.js';
 import { globalErrorHandler } from './middlewares/error-handler.middleware.js';
-import { SERVER_PORT } from './constants/env.constant.js';
+import {
+  ELASTICACHE_HOST,
+  ELASTICACHE_PASSWORD,
+  ELASTICACHE_PORT,
+  ELASTICACHE_USER,
+  SERVER_PORT,
+} from './constants/env.constant.js';
+import { createClient } from 'redis';
+
+const elasticacheHost = ELASTICACHE_HOST;
+const elasticachePort = ELASTICACHE_PORT;
+const elasticacheUser = ELASTICACHE_USER;
+const elasticachePassword = ELASTICACHE_PASSWORD;
+const client = await createClient({
+  url: `redis://${elasticacheUser}:${elasticachePassword}@${elasticacheHost}:${elasticachePort}`,
+});
+console.log('before connect redis');
+await client.connect();
+console.log('after connect redis');
+console.log(await client.ping());
 
 const app = express();
 const port = SERVER_PORT;

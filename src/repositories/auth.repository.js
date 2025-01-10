@@ -15,6 +15,7 @@ class AuthRepository {
     });
     return user;
   };
+  tokenToRedis = async (accessToken) => {};
 }
 
 export default AuthRepository;

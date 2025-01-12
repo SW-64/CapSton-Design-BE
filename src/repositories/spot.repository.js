@@ -23,14 +23,15 @@ class SpotRepository {
         },
       },
     });
+    console.log(getOneSpot);
     await client.hSet(`spotId:${spotId}`, {
       spotId: spotId,
       spotName: getOneSpot.spotName,
       region: getOneSpot.region,
       like: getOneSpot.like,
       imageUrl: getOneSpot.imageUrl,
-      districtId: getOneSpot.districtId,
-      cityId: getOneSpot.cityId,
+      districtId: getOneSpot.district.districtId,
+      cityId: getOneSpot.district.cityId,
     });
     await client.expire(`spotId:${spotId}`, 600);
     return getOneSpot;

@@ -9,7 +9,6 @@ class SpotService {
     const getOneSpot = await this.spotRepository.getOneSpot(spotId);
     //spotId가 존재하지 않을 때 에러반환
     if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
-    console.log(getOneSpot);
     return {
       spotId: getOneSpot.spotId,
       spotName: getOneSpot.spotName,

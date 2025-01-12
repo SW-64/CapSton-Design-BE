@@ -9,9 +9,8 @@ class SpotRepository {
     console.log(typeof cachespotId);
     if (cachespotId) return cachespotId;
     // 캐시에 없을 시
-    await client.set(`spotId:${spotId}`, spotId);
-    await client.expire(`spotId:${spotId}`, 600);
-    return await prisma.spot.findUnique({
+
+    const getOneSpot = await prisma.spot.findUnique({
       where: {
         spotId: spotId,
       },
@@ -24,6 +23,17 @@ class SpotRepository {
         },
       },
     });
+    await client.hSet(`spotId:${spotId}`, {
+      spotId: spotId,
+      spotName: getOneSpot.spotName,
+      region: getOneSpot.region,
+      like: getOneSpot.like,
+      imageUrl: getOneSpot.imageUrl,
+      districtId: getOneSpot.districtId,
+      cityId: getOneSpot.cityId,
+    });
+    await client.expire(`spotId:${spotId}`, 600);
+    return getOneSpot;
   };
 
   // 명소 삭제

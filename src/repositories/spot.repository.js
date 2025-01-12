@@ -5,9 +5,9 @@ class SpotRepository {
   // 상세 명소 조회
   getOneSpot = async (spotId) => {
     // 캐시에 있을 시
-    const spotId = await client.get(`spotId:${spotId}`);
-    console.log(typeof spotId);
-    if (spotId) return spotId;
+    const cachespotId = await client.get(`spotId:${spotId}`);
+    console.log(typeof cachespotId);
+    if (cachespotId) return cachespotId;
     // 캐시에 없을 시
     await client.set(`spotId:${spotId}`, spotId);
     await client.expire(`spotId:${spotId}`, 600);

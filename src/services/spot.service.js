@@ -12,7 +12,6 @@ class SpotService {
     return {
       spotId: getOneSpot.spotId,
       spotName: getOneSpot.spotName,
-      region: getOneSpot.region,
       like: getOneSpot.like,
       imageUrl: getOneSpot.imageUrl,
       districtId: getOneSpot.districtId,

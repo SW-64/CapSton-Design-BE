@@ -25,9 +25,8 @@ class SpotRepository {
     });
     console.log(getOneSpot);
     await client.hSet(`spotId:${spotId}`, {
-      spotId: spotId,
+      spotId: getOneSpot.spotId,
       spotName: getOneSpot.spotName,
-      region: getOneSpot.region,
       like: getOneSpot.like,
       imageUrl: getOneSpot.imageUrl,
       districtId: getOneSpot.district.districtId,

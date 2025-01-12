@@ -13,6 +13,7 @@ const elasticachePort = ELASTICACHE_PORT;
 
 export const client = await createClient({
   url: `redis://${elasticacheHost}:${elasticachePort}`,
+  legacyMode: true,
 });
 console.log('before connect redis');
 await client.connect();

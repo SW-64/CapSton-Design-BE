@@ -15,7 +15,7 @@ class SpotService {
       like: getOneSpot.like,
       imageUrl: getOneSpot.imageUrl,
       districtId: getOneSpot.districtId,
-      cityId: getOneSpot.district.cityId,
+      cityId: getOneSpot.cityId,
     };
   };
 

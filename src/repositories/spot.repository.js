@@ -6,7 +6,7 @@ class SpotRepository {
   getOneSpot = async (spotId) => {
     // 캐시에 있을 시
     const cachespotId = await client.hGetAll(`spotId:${spotId}`);
-    console.log(cachespotId);
+    console.log(!Object.keys(cachespotId).length);
     if (cachespotId) return cachespotId;
     // 캐시에 없을 시
 

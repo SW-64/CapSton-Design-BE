@@ -3,18 +3,15 @@ import { apiRouter } from './routers/index.js';
 import { globalErrorHandler } from './middlewares/error-handler.middleware.js';
 import {
   ELASTICACHE_HOST,
-  ELASTICACHE_PASSWORD,
   ELASTICACHE_PORT,
-  ELASTICACHE_USER,
   SERVER_PORT,
 } from './constants/env.constant.js';
 import { createClient } from 'redis';
 
 const elasticacheHost = ELASTICACHE_HOST;
 const elasticachePort = ELASTICACHE_PORT;
-const elasticacheUser = ELASTICACHE_USER;
-const elasticachePassword = ELASTICACHE_PASSWORD;
-const client = await createClient({
+
+export const client = await createClient({
   url: `redis://${elasticacheHost}:${elasticachePort}`,
 });
 console.log('before connect redis');

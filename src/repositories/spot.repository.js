@@ -1,9 +1,15 @@
+// import { client } from '../app.js';
 import { prisma } from '../utils/prisma.util.js';
 
 class SpotRepository {
   // 상세 명소 조회
   getOneSpot = async (spotId) => {
-    return await prisma.spot.findUnique({
+    // 캐시에 있을 시
+    // const cachespotId = await client.hGetAll(`spotId:${spotId}`);
+    // if (Object.keys(cachespotId).length) return cachespotId;
+    // 캐시에 없을 시
+
+    const getOneSpot = await prisma.spot.findUnique({
       where: {
         spotId: spotId,
       },
@@ -16,6 +22,17 @@ class SpotRepository {
         },
       },
     });
+    console.log(getOneSpot);
+    // await client.hSet(`spotId:${spotId}`, {
+    //   spotId: getOneSpot.spotId,
+    //   spotName: getOneSpot.spotName,
+    //   like: getOneSpot.like,
+    //   imageUrl: getOneSpot.imageUrl,
+    //   districtId: getOneSpot.district.districtId,
+    //   cityId: getOneSpot.district.cityId,
+    // });
+    // await client.expire(`spotId:${spotId}`, 600);
+    return getOneSpot;
   };
 
   // 명소 삭제

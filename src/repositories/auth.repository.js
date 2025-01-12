@@ -29,6 +29,7 @@ class AuthRepository {
       expiresIn: '1h',
     });
     await client.set(`userToken:${userId}`, accessToken);
+    await client.expire(`userToken:${userId}`, 3600);
 
     return accessToken;
   };

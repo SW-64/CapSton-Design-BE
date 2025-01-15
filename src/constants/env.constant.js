@@ -10,3 +10,7 @@ export const AWS_REGION = process.env.AWS_REGION;
 export const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 export const ROOT_PASSWORD = process.env.ROOT_PASSWORD;
 export const DATABASE_HOST = process.env.DATABASE_HOST;
+export const ELASTICACHE_HOST = process.env.ELASTICACHE_HOST;
+export const ELASTICACHE_PORT = process.env.ELASTICACHE_PORT;
+export const ELASTICACHE_USER = process.env.ELASTICACHE_USER;
+export const ELASTICACHE_PASSWORD = process.env.ELASTICACHE_PASSWORD;

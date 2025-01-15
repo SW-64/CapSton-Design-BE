@@ -6,9 +6,8 @@ import {
 } from '../errors/http.error.js';
 import AuthRepository from '../repositories/auth.repository.js';
 import UserRepository from '../repositories/user.repository.js';
-import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+
 class AuthService {
   authRepository = new AuthRepository();
   userRepository = new UserRepository();
@@ -44,11 +43,10 @@ class AuthService {
     if (!existedEmail || !bcrypt.compareSync(password, existedEmail.password)) {
       throw new BadRequestError('사용자 정보 틀림');
     }
+    const accessToken = await this.authRepository.tokenToRedis(
+      existedEmail.userId,
+    );
 
-    const payload = { id: existedEmail.userId };
-    const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: '12h',
-    });
     console.log(accessToken);
     return accessToken;
   };

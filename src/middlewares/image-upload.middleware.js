@@ -34,8 +34,14 @@ const imageUploader = multer({
     key: function (req, file, cb) {
       const ext = path.extname(file.originalname);
       const fileName = `${Date.now().toString()}${ext}`;
-      console.log(fileName);
-      cb(null, `image/${fileName}`);
+
+      let image = '';
+      if (req.params.cityId == 2) {
+        image = 'incheon';
+      } else {
+        image = 'image';
+      }
+      cb(null, `${image}/${fileName}`);
     },
   }),
 });

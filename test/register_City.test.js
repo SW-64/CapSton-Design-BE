@@ -12,6 +12,7 @@ describe('명소 등록 테스트', () => {
     });
 
     token = loginResponse.body.data; // 로그인 성공 시 반환된 토큰 저장
+
   });
 
   it('명소 등록 성공 시 201 응답 및 데이터 반환', async () => {

@@ -30,7 +30,7 @@ model User {
 model Spot {
   spotId      Int          @id @default(autoincrement())
   spotName    String
-  districtId  Int          @map("district_districtId")
+  districtId  Int
   like        Int          @default(0)
   imageUrl    Json?        @map("image_url")
   createdAt   DateTime     @default(now()) @map("created_at")
@@ -45,7 +45,7 @@ model Spot {
 
 model District {
   districtId   Int    @id @default(autoincrement())
-  cityId       Int    @map("city_cityId")
+  cityId       Int
   districtName String
   city         City   @relation(fields: [cityId], references: [cityId])
   Spot         Spot[]
@@ -63,8 +63,8 @@ model City {
 
 model Review {
   reviewId  Int      @id @default(autoincrement())
-  spotId    Int      @map("spot_spotId")
-  userId    Int      @map("user_userId")
+  spotId    Int
+  userId    Int
   rate      Int
   content   String   @db.Text
   createdAt DateTime @default(now()) @map("created_at")
@@ -77,7 +77,7 @@ model Review {
 
 model Category {
   categoryId Int    @id @default(autoincrement())
-  spotId     Int    @map("spot_spotId")
+  spotId     Int
   Category   String
   spot       Spot   @relation(fields: [spotId], references: [spotId])
 
@@ -86,8 +86,8 @@ model Category {
 
 model Interaction {
   interactionId Int             @id @default(autoincrement())
-  spotId        Int             @unique @map("spot_spotId")
-  userId        Int             @map("user_userId")
+  spotId        Int             @unique
+  userId        Int
   type          InteractionType @default(LIKE)
   spot          Spot            @relation(fields: [spotId], references: [spotId])
   user          User            @relation(fields: [userId], references: [userId])

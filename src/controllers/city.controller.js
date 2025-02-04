@@ -30,8 +30,14 @@ class CityController {
   getAllDistrictSpot = async (req, res, next) => {
     try {
       const { cityId } = req.params;
-      const getAllDistrictSpot =
-        await this.cityService.getAllDistrictSpot(+cityId);
+
+      // 쿼리값으로 page  받기
+      const page = Math.max(1, parseInt(req.query.page) || 1);
+
+      const getAllDistrictSpot = await this.cityService.getAllDistrictSpot(
+        +cityId,
+        page,
+      );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
         message: '해당 도시 전체 명소 조회 성공',
@@ -46,9 +52,14 @@ class CityController {
   getOneDistrictSpot = async (req, res, next) => {
     try {
       const { cityId, districtId } = req.params;
+
+      // 쿼리값으로 page  받기
+      const page = Math.max(1, parseInt(req.query.page) || 1);
+
       const getOneDistrictSpot = await this.cityService.getOneDistrictSpot(
         +cityId,
         +districtId,
+        page,
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,

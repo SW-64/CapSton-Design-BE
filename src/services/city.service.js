@@ -36,13 +36,15 @@ class CityService {
   };
 
   // 해당 도시 전체 명소 조회
-  getAllDistrictSpot = async (cityId) => {
+  getAllDistrictSpot = async (cityId, page) => {
     // 해당 대도시가 없을 때 에러 반환
     const existedCity = await this.cityRepository.findCity(cityId);
     if (!existedCity) throw new NotFoundError('해당 대도시가 없음');
 
-    const getAllDistrictSpot =
-      await this.cityRepository.getAllDistrictSpot(cityId);
+    const getAllDistrictSpot = await this.cityRepository.getAllDistrictSpot(
+      cityId,
+      page,
+    );
     const AllSpot = getAllDistrictSpot.map((spot) => ({
       spotId: spot.spotId,
       spotName: spot.spotName,
@@ -55,7 +57,7 @@ class CityService {
   };
 
   //해당 행정구역 전체 명소 조회
-  getOneDistrictSpot = async (cityId, districtId) => {
+  getOneDistrictSpot = async (cityId, districtId, page) => {
     // 해당 행정구역이 없을 때 에러 반환
     const existedDistrict = await this.cityRepository.findDistrict(
       cityId,
@@ -63,8 +65,10 @@ class CityService {
     );
     if (!existedDistrict) throw new NotFoundError('해당 행정구역이 없음');
 
-    const getOneDistrictSpot =
-      await this.cityRepository.getOneDistrictSpot(districtId);
+    const getOneDistrictSpot = await this.cityRepository.getOneDistrictSpot(
+      districtId,
+      page,
+    );
     const AllSpot = getOneDistrictSpot.map((spot) => ({
       spotId: spot.spotId,
       spotName: spot.spotName,

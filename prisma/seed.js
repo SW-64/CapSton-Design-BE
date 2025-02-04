@@ -89,9 +89,9 @@ async function main() {
   });
 
   // 장소 더미데이터
-  await prisma.spot.createMany({
-    data: spots,
-  });
+  // await prisma.spot.createMany({
+  //   data: spots,
+  // });
 }
 main()
   .then(async () => {

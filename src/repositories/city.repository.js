@@ -14,8 +14,10 @@ class CityRepository {
   };
 
   // 해당 도시 전체 명소 조회
-  getAllDistrictSpot = async (cityId) => {
+  getAllDistrictSpot = async (cityId, page) => {
     return await prisma.spot.findMany({
+      skip: (page - 1) * 10,
+      take: 10,
       where: {
         district: {
           city: {
@@ -29,8 +31,10 @@ class CityRepository {
     });
   };
   //해당 행정구역 전체 명소 조회
-  getOneDistrictSpot = async (districtId) => {
+  getOneDistrictSpot = async (districtId, page) => {
     return await prisma.spot.findMany({
+      skip: (page - 1) * 10,
+      take: 10,
       where: {
         districtId,
       },

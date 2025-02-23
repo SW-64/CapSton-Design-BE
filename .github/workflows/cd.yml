@@ -35,10 +35,10 @@ jobs:
             export PATH="$(yarn global bin):$PATH"
 
             # 프로젝트 폴더로 이동
-            cd /home/ubuntu/sparta-nest-cicd
+            cd /home/ubuntu/CapSton-Design-BE
 
-            # main 브랜치로 이동
-            git switch main
+            # dev 브랜치로 이동
+            git switch dev
 
             # 최신 소스 코드를 가져옴
             git pull

@@ -14,3 +14,4 @@ export const ELASTICACHE_HOST = process.env.ELASTICACHE_HOST;
 export const ELASTICACHE_PORT = process.env.ELASTICACHE_PORT;
 export const ELASTICACHE_USER = process.env.ELASTICACHE_USER;
 export const ELASTICACHE_PASSWORD = process.env.ELASTICACHE_PASSWORD;
+export const PUBLIC_DATA_PORTAL = process.env.PUBLIC_DATA_PORTAL;

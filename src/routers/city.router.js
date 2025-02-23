@@ -27,4 +27,7 @@ cityRouter.get(
   cityController.getOneDistrictSpot,
 );
 
+// 저작권 무료 API 전체 명소 조회
+cityRouter.get('/:cityId/free-images', cityController.getFreeImages);
+
 export { cityRouter };

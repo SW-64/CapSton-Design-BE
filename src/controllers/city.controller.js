@@ -70,6 +70,27 @@ class CityController {
       next(error);
     }
   };
+
+  // 저작권 무료 API 전체 명소 조회
+  getFreeImages = async (req, res, next) => {
+    try {
+      const { cityId } = req.params;
+      // 쿼리값으로 API 출처 확인
+      const source = req.query.source;
+
+      const getFreeImages = await this.cityService.getFreeImages(
+        source,
+        +cityId,
+      );
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '저작권 무료 API 전체 명소 조회',
+        data: getFreeImages,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default CityController;

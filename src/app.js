@@ -30,7 +30,7 @@ app.use(apiRouter);
 app.use(globalErrorHandler);
 
 app.get('/', (req, res) => {
-  return res.json('hello world');
+  return res.json('hello world1');
 });
 
 app.listen(port, async () => {

@@ -28,7 +28,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "jest --passWithNoTests"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

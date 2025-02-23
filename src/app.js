@@ -4,6 +4,7 @@ import { globalErrorHandler } from './middlewares/error-handler.middleware.js';
 import {
   ELASTICACHE_HOST,
   ELASTICACHE_PORT,
+  PUBLIC_DATA_PORTAL,
   SERVER_PORT,
 } from './constants/env.constant.js';
 import { createClient } from 'redis';
@@ -22,7 +23,7 @@ import { createClient } from 'redis';
 
 const app = express();
 const port = SERVER_PORT;
-app.use(express.json());
+const publicDataToken = app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
@@ -31,6 +32,7 @@ app.use(globalErrorHandler);
 app.get('/', (req, res) => {
   return res.json('hello world');
 });
+
 app.listen(port, async () => {
   console.log(`Server is listening on ${port}`);
 });

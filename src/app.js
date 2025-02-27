@@ -21,7 +21,7 @@ import { createClient } from 'redis';
 // console.log('after connect redis');
 // console.log(await client.ping());
 
-const app = express();
+export const app = express();
 const port = SERVER_PORT;
 const publicDataToken = app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,5 +1,9 @@
-import { json } from 'express';
-import { PUBLIC_DATA_PORTAL } from '../constants/env.constant.js';
+import { XMLParser } from 'fast-xml-parser';
+import {
+  KOREA_TOUR_DATA,
+  PUBLIC_DATA_PORTAL,
+  SEOUL_OPEN_DATA,
+} from '../constants/env.constant.js';
 import { prisma } from '../utils/prisma.util.js';
 
 class CityRepository {
@@ -72,13 +76,14 @@ class CityRepository {
   };
 
   // 저작권 무료 API 전체 명소 조회
-  getFreeImages = async (source, cityId) => {
+  getFreeImages = async (source, cityId, search) => {
     console.log(source, cityId);
+    // 인천 공공 데이터
     if (source == 'publicDataPortal' && cityId == 2) {
       try {
         // API 요청 보내기
         const response = await fetch(
-          `https://api.incheoneasy.com/api/tour/touristPhotoInfo?accessToken=${PUBLIC_DATA_PORTAL}&pageNo=2`,
+          `https://api.incheoneasy.com/api/tour/touristPhotoInfo?accessToken=${PUBLIC_DATA_PORTAL}&pageNo=1&n=100`,
           {
             method: 'GET',
             headers: {
@@ -93,9 +98,59 @@ class CityRepository {
         }
 
         const textData = await response.json();
-        const again = JSON.parse(textData.data);
-        console.log(again.dataList);
+        const parsedData = JSON.parse(textData.data);
+        console.log(parsedData.dataList);
         return textData.data;
+      } catch (error) {
+        console.error('에러 발생:', error.message);
+        return { error: 'API 요청 중 오류가 발생했습니다.' };
+      }
+      // 서울 공원 데이터
+    } else if (source == 'seoulPark') {
+      try {
+        // API 요청 보내기
+        const response = await fetch(
+          `http://openapi.seoul.go.kr:8088/${SEOUL_OPEN_DATA}/json/SearchParkInfoService/1/129/`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          },
+        );
+
+        // 응답이 정상적이지 않을 경우 에러 처리
+        if (!response.ok) {
+          throw new Error(`API 요청 실패: ${response.status}`);
+        }
+
+        const textData = await response.json();
+
+        return textData.SearchParkInfoService.row;
+      } catch (error) {
+        console.error('에러 발생:', error.message);
+        return { error: 'API 요청 중 오류가 발생했습니다.' };
+      }
+    }
+    // 한국 관광 공사
+    else if (source == 'koreaTourData') {
+      try {
+        // API 요청 보내기
+        const response = await fetch(
+          `https://apis.data.go.kr/B551011/PhotoGalleryService1/gallerySearchList1?serviceKey=${KOREA_TOUR_DATA}&numOfRows=50&pageNo=1&MobileOS=ETC&MobileApp=TestApp&_type=json&keyword=${search}`,
+          {
+            method: 'GET',
+          },
+        );
+
+        // 응답이 정상적이지 않을 경우 에러 처리
+        if (!response.ok) {
+          throw new Error(`API 요청 실패: ${response.status}`);
+        }
+
+        const textData = await response.json();
+
+        return textData.response.body.items.item;
       } catch (error) {
         console.error('에러 발생:', error.message);
         return { error: 'API 요청 중 오류가 발생했습니다.' };

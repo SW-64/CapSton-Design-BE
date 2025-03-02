@@ -77,10 +77,12 @@ class CityController {
       const { cityId } = req.params;
       // 쿼리값으로 API 출처 확인
       const source = req.query.source;
+      const search = req.query.search;
 
       const getFreeImages = await this.cityService.getFreeImages(
         source,
         +cityId,
+        search,
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,

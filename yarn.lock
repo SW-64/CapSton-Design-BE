@@ -2553,6 +2553,13 @@ fast-xml-parser@4.4.1:
   dependencies:
     strnum "^1.0.5"
 
+fast-xml-parser@^5.0.8:
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-5.0.8.tgz#cb84ca077c0c5c45906051c13c4075ed44d3f271"
+  integrity sha512-qY8NiI5L8ff00F2giyICiJxSSKHO52tC36LJqx2JtvGyAd5ZfehC/l4iUVVHpmpIa6sM9N5mneSLHQG2INGoHA==
+  dependencies:
+    strnum "^2.0.5"
+
 fb-watchman@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/fb-watchman/-/fb-watchman-2.0.2.tgz#e9524ee6b5c77e9e5001af0f85f3adbb8623255c"
@@ -4215,6 +4222,11 @@ strnum@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/strnum/-/strnum-1.0.5.tgz"
   integrity sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==
+
+strnum@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/strnum/-/strnum-2.0.5.tgz#40700b1b5bf956acdc755e98e90005d7657aaaea"
+  integrity sha512-YAT3K/sgpCUxhxNMrrdhtod3jckkpYwH6JAuwmUdXZsmzH1wUyzTMrrK2wYCEEqlKwrWDd35NeuUkbBy/1iK+Q==
 
 superagent@^9.0.1:
   version "9.0.2"

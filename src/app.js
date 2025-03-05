@@ -8,6 +8,7 @@ import {
   SERVER_PORT,
 } from './constants/env.constant.js';
 import { createClient } from 'redis';
+import cors from 'cors';
 
 // const elasticacheHost = ELASTICACHE_HOST;
 // const elasticachePort = ELASTICACHE_PORT;
@@ -23,8 +24,6 @@ import { createClient } from 'redis';
 
 export const app = express();
 const port = SERVER_PORT;
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
@@ -40,6 +39,9 @@ app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   res.sendStatus(204);
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);
 app.use(globalErrorHandler);
 app.get('/', (req, res) => {

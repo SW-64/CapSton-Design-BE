@@ -26,8 +26,6 @@ const port = SERVER_PORT;
 const publicDataToken = app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(apiRouter);
-app.use(globalErrorHandler);
 app.use(
   cors({
     origin: 'https://peopletophoto.site', // 프론트엔드 도메인만 허용
@@ -35,7 +33,8 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
   }),
 );
-
+app.use(apiRouter);
+app.use(globalErrorHandler);
 app.get('/', (req, res) => {
   return res.json('hello world test');
 });

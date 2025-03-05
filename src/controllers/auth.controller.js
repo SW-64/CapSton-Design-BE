@@ -33,7 +33,7 @@ class AuthController {
       const signIn = await this.authService.signIn(email, password);
 
       //  HttpOnly 쿠키로 저장 (XSS 방지)
-      res.cookie('authToken', token, {
+      res.cookie('authToken', signIn, {
         httpOnly: true, // JS에서 접근 불가
         secure: true, // HTTPS에서만 전송
         sameSite: 'Strict', // CSRF 방지

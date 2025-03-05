@@ -15,7 +15,7 @@ class AuthController {
         passwordConfirm,
         nickname,
       );
-      console.log(signUp);
+
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
         message: '회원가입 성공',

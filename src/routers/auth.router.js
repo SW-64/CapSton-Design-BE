@@ -15,4 +15,6 @@ authRouter.post('/sign-up', authController.signUp);
 // 로그인
 authRouter.post('/sign-in', authController.signIn);
 
+// 내 정보 확인
+authRouter.get('/getMyInfo');
 export { authRouter };

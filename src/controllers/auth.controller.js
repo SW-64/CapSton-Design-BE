@@ -49,6 +49,9 @@ class AuthController {
       next(err);
     }
   };
+
+  // 내 정보 확인
+  getMyoInfo;
 }
 
 export default AuthController;

@@ -43,18 +43,6 @@ class AuthController {
       next(err);
     }
   };
-
-  // 내 정보 확인
-  getMyoInfo = async (req, res, next) => {
-    try {
-      const token = req.cookies.authToken;
-      if (!token) {
-        return res.status(401).json({ message: '인증 토큰이 없습니다.' });
-      }
-    } catch (err) {
-      next(err);
-    }
-  };
 }
 
 export default AuthController;

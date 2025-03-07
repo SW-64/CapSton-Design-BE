@@ -9,7 +9,7 @@ const apiRouter = express.Router();
 
 apiRouter.use('/api/cities', requireAccessToken, cityRouter);
 apiRouter.use('/api/spots', requireAccessToken, spotRouter);
-apiRouter.use('/api/users', userRouter);
+apiRouter.use('/api/users', requireAccessToken, userRouter);
 apiRouter.use('/api/auth', authRouter);
 
 export { apiRouter };

@@ -32,8 +32,6 @@ class AuthController {
       const { email, password } = req.body;
       const signIn = await this.authService.signIn(email, password);
 
-      localStorage.setItem('accessToken', signIn);
-
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
         message: '로그인 성공',

@@ -36,7 +36,7 @@ class AuthController {
       res.cookie('authToken', signIn, {
         httpOnly: true, // JS에서 접근 불가
         secure: true, // HTTPS에서만 전송
-        sameSite: 'Strict', // CSRF 방지
+        sameSite: 'None', // CSRF 방지
         maxAge: 3600000, // 1시간 후 만료
       });
 

@@ -27,7 +27,7 @@ const port = SERVER_PORT;
 
 app.use(
   cors({
-    origin: 'https://peopletophoto.site', // 프론트엔드 도메인만 허용
+    origin: '*', // 프론트엔드 도메인만 허용
     credentials: true, // 쿠키 전송 허용 (필요한 경우)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
   }),

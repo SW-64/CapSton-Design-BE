@@ -3,6 +3,7 @@ import { prisma } from '../utils/prisma.util.js';
 import AuthRepository from '../repositories/auth.repository.js';
 import AuthService from '../services/auth.service.js';
 import AuthController from '../controllers/auth.controller.js';
+import { requireAccessToken } from '../middlewares/require-access-token.middlewares.js';
 
 const authRouter = express.Router();
 const authRepository = new AuthRepository(prisma);
@@ -15,6 +16,4 @@ authRouter.post('/sign-up', authController.signUp);
 // 로그인
 authRouter.post('/sign-in', authController.signIn);
 
-// 내 정보 확인
-authRouter.get('/getMyInfo');
 export { authRouter };

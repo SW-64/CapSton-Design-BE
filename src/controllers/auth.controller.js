@@ -32,13 +32,7 @@ class AuthController {
       const { email, password } = req.body;
       const signIn = await this.authService.signIn(email, password);
 
-      //  HttpOnly 쿠키로 저장 (XSS 방지)
-      res.cookie('authToken', signIn, {
-        httpOnly: true, // JS에서 접근 불가
-        secure: true, // HTTPS에서만 전송
-        sameSite: 'None', // CSRF 방지
-        maxAge: 3600000, // 1시간 후 만료
-      });
+      localStorage.setItem('accessToken', signIn);
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
@@ -51,7 +45,16 @@ class AuthController {
   };
 
   // 내 정보 확인
-  getMyoInfo;
+  getMyoInfo = async (req, res, next) => {
+    try {
+      const token = req.cookies.authToken;
+      if (!token) {
+        return res.status(401).json({ message: '인증 토큰이 없습니다.' });
+      }
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default AuthController;

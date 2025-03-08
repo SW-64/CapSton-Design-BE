@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
+import { MESSAGES } from '../constants/message.constant.js';
 import UserService from '../services/user.service.js';
 
 class UsertController {
@@ -13,7 +14,7 @@ class UsertController {
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: '내 정보 확인 성공',
+        message: MESSAGES.USER.GET_MY_INFO.SUCCEED,
         data: filteredUser,
       });
     } catch (err) {

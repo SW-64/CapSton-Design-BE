@@ -5,6 +5,8 @@ import {
   SEOUL_OPEN_DATA,
 } from '../constants/env.constant.js';
 import { prisma } from '../utils/prisma.util.js';
+import { MESSAGES } from '../constants/message.constant.js';
+import { InternalServerError } from '../errors/http.error.js';
 
 class CityRepository {
   // 명소 등록
@@ -94,7 +96,9 @@ class CityRepository {
 
         // 응답이 정상적이지 않을 경우 에러 처리
         if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
+          throw new InternalServerError(
+            MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR,
+          );
         }
 
         const textData = await response.json();
@@ -102,8 +106,7 @@ class CityRepository {
         console.log(parsedData.dataList);
         return textData.data;
       } catch (error) {
-        console.error('에러 발생:', error.message);
-        return { error: 'API 요청 중 오류가 발생했습니다.' };
+        return { error: MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR };
       }
       // 서울 공원 데이터
     } else if (source == 'seoulPark') {
@@ -121,15 +124,16 @@ class CityRepository {
 
         // 응답이 정상적이지 않을 경우 에러 처리
         if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
+          throw new InternalServerError(
+            MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR,
+          );
         }
 
         const textData = await response.json();
 
         return textData.SearchParkInfoService.row;
       } catch (error) {
-        console.error('에러 발생:', error.message);
-        return { error: 'API 요청 중 오류가 발생했습니다.' };
+        return { error: MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR };
       }
     }
     // 한국 관광 공사
@@ -145,15 +149,16 @@ class CityRepository {
 
         // 응답이 정상적이지 않을 경우 에러 처리
         if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
+          throw new InternalServerError(
+            MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR,
+          );
         }
 
         const textData = await response.json();
 
         return textData.response.body.items.item;
       } catch (error) {
-        console.error('에러 발생:', error.message);
-        return { error: 'API 요청 중 오류가 발생했습니다.' };
+        return { error: MESSAGES.CITY.GET_FREE_IMAGES_API.REQUEST_API_ERROR };
       }
     }
   };

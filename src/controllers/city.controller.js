@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
+import { MESSAGES } from '../constants/message.constant.js';
 import CityService from '../services/city.service.js';
 
 class CityController {
@@ -6,6 +7,7 @@ class CityController {
   // 명소 등록
   setSpot = async (req, res, next) => {
     try {
+      //사진을 저장할 파일 위치 경로
       const imageUrl = req.files[0].location;
       const { cityId, districtId } = req.params;
       const { spotName } = req.body;
@@ -18,7 +20,7 @@ class CityController {
       );
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
-        message: '명소 등록 성공',
+        message: MESSAGES.CITY.SET_SPOT.SUCCEED,
         data: setSpot,
       });
     } catch (error) {
@@ -40,7 +42,7 @@ class CityController {
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: '해당 도시 전체 명소 조회 성공',
+        message: MESSAGES.CITY.GET_CITY_SPOTS.SUCCEED,
         data: getAllDistrictSpot,
       });
     } catch (error) {
@@ -63,7 +65,7 @@ class CityController {
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: '전체 명소 조회 성공',
+        message: MESSAGES.CITY.GET_DISTRICT_SPOTS.SUCCEED,
         data: getOneDistrictSpot,
       });
     } catch (error) {
@@ -86,7 +88,7 @@ class CityController {
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: '저작권 무료 API 전체 명소 조회',
+        message: MESSAGES.CITY.GET_FREE_IMAGES_API,
         data: getFreeImages,
       });
     } catch (error) {

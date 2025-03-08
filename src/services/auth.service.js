@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
+import { MESSAGES } from '../constants/message.constant.js';
 import {
   BadRequestError,
   ConflictError,
@@ -15,13 +16,14 @@ class AuthService {
   signUp = async (name, email, password, passwordConfirm, nickname) => {
     // 비밀번호와 비밀번호 확인이 맞지않을 경우 에러 반환
     if (password != passwordConfirm) {
-      throw new ConflictError('비밀번호 불일치');
+      throw new ConflictError(MESSAGES.AUTH.SIGN_UP.NOT_MATCHED_WITH_PASSWORD);
     }
 
     // 중복된 이메일이 있을 시 에러 반환
     const existedEmail = await this.userRepository.getMyInfo(email);
     console.log(existedEmail);
-    if (existedEmail) throw new ConflictError('중복된 이메일');
+    if (existedEmail)
+      throw new ConflictError(MESSAGES.AUTH.SIGN_UP.EXISTED_EMAIL);
 
     const signUp = await this.authRepository.signUp(
       name,
@@ -41,7 +43,7 @@ class AuthService {
     // 해당되는 email이 없다면 에러 반환
     const existedEmail = await this.userRepository.getMyInfo(email);
     if (!existedEmail || !bcrypt.compareSync(password, existedEmail.password)) {
-      throw new BadRequestError('사용자 정보 틀림');
+      throw new BadRequestError(MESSAGES.AUTH.SIGN_IN.NOT_FOUND);
     }
     const accessToken = await this.authRepository.tokenToRedis(
       existedEmail.userId,

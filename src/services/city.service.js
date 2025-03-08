@@ -1,3 +1,4 @@
+import { MESSAGES } from '../constants/message.constant.js';
 import { NotFoundError } from '../errors/http.error.js';
 import CityRepository from '../repositories/city.repository.js';
 
@@ -8,18 +9,20 @@ class CityService {
     // 중복되는 명소 이름이 있을때 에러반환
     const existedSpot = await this.cityRepository.findSpotName(spotName);
     if (existedSpot)
-      throw new BadRequestError('중복되는 명소 이름이 있습니다.');
+      throw new BadRequestError(MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME);
 
     // 해당 대도시가 없을 때 에러 반환
     const existedCity = await this.cityRepository.findCity(cityId);
-    if (!existedCity) throw new NotFoundError('해당 대도시가 없음');
+    if (!existedCity)
+      throw new NotFoundError(MESSAGES.CITY.SET_SPOT.NOT_FOUND_CITY);
+
     // 해당 대도시의 행정구역이 없다면 에러 반환
     const existedDistrct = await this.cityRepository.findDistrict(
       cityId,
       districtId,
     );
     if (!existedDistrct)
-      throw new NotFoundError('해당 도시에 맞는 행정구역이 없음');
+      throw new NotFoundError(MESSAGES.CITY.SET_SPOT.NOT_FOUND_DISTRICT);
 
     const setSpot = await this.cityRepository.setSpot(
       spotName,
@@ -39,7 +42,8 @@ class CityService {
   getAllDistrictSpot = async (cityId, page) => {
     // 해당 대도시가 없을 때 에러 반환
     const existedCity = await this.cityRepository.findCity(cityId);
-    if (!existedCity) throw new NotFoundError('해당 대도시가 없음');
+    if (!existedCity)
+      throw new NotFoundError(MESSAGES.CITY.GET_CITY_SPOTS.NOT_FOUND_CITY);
 
     const getAllDistrictSpot = await this.cityRepository.getAllDistrictSpot(
       cityId,
@@ -63,7 +67,10 @@ class CityService {
       cityId,
       districtId,
     );
-    if (!existedDistrict) throw new NotFoundError('해당 행정구역이 없음');
+    if (!existedDistrict)
+      throw new NotFoundError(
+        MESSAGES.CITY.GET_DISTRICT_SPOTS.NOT_FOUND_DISTRICT,
+      );
 
     const getOneDistrictSpot = await this.cityRepository.getOneDistrictSpot(
       districtId,

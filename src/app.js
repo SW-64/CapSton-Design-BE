@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);
 app.use(globalErrorHandler);
 app.get('/', (req, res) => {
-  return res.json('hello world test1');
+  return res.json('hello world test');
 });
 
 app.listen(port, async () => {

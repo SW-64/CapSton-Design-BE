@@ -32,13 +32,6 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
   }),
 );
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(204);
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

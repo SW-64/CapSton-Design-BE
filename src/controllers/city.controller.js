@@ -88,7 +88,7 @@ class CityController {
       );
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: MESSAGES.CITY.GET_FREE_IMAGES_API,
+        message: MESSAGES.CITY.GET_FREE_IMAGES_API.SUCCEED,
         data: getFreeImages,
       });
     } catch (error) {

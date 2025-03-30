@@ -30,12 +30,4 @@ spotRouter.post('/:spotId/like', spotController.setLike);
 // 명소 좋아요 삭제
 spotRouter.delete('/:spotId/like', spotController.deleteLike);
 
-// 명소 리뷰 등록
-spotRouter.post('/:spotId/reviews', spotController.setReview);
-
-// 명소 리뷰 전체 조회
-spotRouter.get('/:spotId/reviews', spotController.getAllReview);
-
-// 명소 리뷰 상세 조회
-spotRouter.get('/:spotId/reviews/:reviewId', spotController.getOneReview);
 export { spotRouter };

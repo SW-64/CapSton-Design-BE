@@ -119,63 +119,6 @@ class SpotController {
       next(error);
     }
   };
-
-  // 명소 리뷰 등록
-  setReview = async (req, res, next) => {
-    try {
-      const { rate, content } = req.body;
-      const { spotId } = req.params;
-      const user = req.user;
-      const setReview = await this.spotService.setReview(
-        +spotId,
-        user.userId,
-        rate,
-        content,
-      );
-      return res.status(HTTP_STATUS.OK).json({
-        status: HTTP_STATUS.OK,
-        message: '명소 리뷰 등록 성공',
-        data: setReview,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  // 명소 리뷰 전체 조회
-  getAllReview = async (req, res, next) => {
-    try {
-      const { spotId } = req.params;
-      const getAllReview = await this.spotService.getAllReview(+spotId);
-      return res.status(HTTP_STATUS.OK).json({
-        status: HTTP_STATUS.OK,
-        message: '명소 전체 리뷰 조회 성공',
-        data: getAllReview,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  // 명소 리뷰 상세 조회
-  getOneReview = async (req, res, next) => {
-    try {
-      const userId = req.user.userId;
-      const { spotId, reviewId } = req.params;
-      const getOneReview = await this.spotService.getOneReview(
-        +spotId,
-        +reviewId,
-        userId,
-      );
-      return res.status(HTTP_STATUS.OK).json({
-        status: HTTP_STATUS.OK,
-        message: '명소 상세 리뷰 조회 성공',
-        data: getOneReview,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
 }
 
 export default SpotController;

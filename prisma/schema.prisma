@@ -19,6 +19,7 @@ model User {
   password     String
   name         String
   nickName     String
+  profile      String
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
   interactions Interaction[]
@@ -30,35 +31,16 @@ model User {
 model Spot {
   spotId      Int          @id @default(autoincrement())
   spotName    String
-  districtId  Int
   like        Int          @default(0)
   imageUrl    Json?        @map("image_url")
+  isPublic    IsPublic     @default(PUBLIC)
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
   reviews     Review[]
   interaction Interaction?
   categorys   Category[]
-  district    District     @relation(fields: [districtId], references: [districtId])
 
   @@map("spots")
-}
-
-model District {
-  districtId   Int    @id @default(autoincrement())
-  cityId       Int
-  districtName String
-  city         City   @relation(fields: [cityId], references: [cityId])
-  Spot         Spot[]
-
-  @@map("districts")
-}
-
-model City {
-  cityId   Int        @id @default(autoincrement())
-  cityName String
-  District District[]
-
-  @@map("citys")
 }
 
 model Review {
@@ -93,6 +75,11 @@ model Interaction {
   user          User            @relation(fields: [userId], references: [userId])
 
   @@map("interactions")
+}
+
+enum IsPublic {
+  PUBLIC
+  PRIVATE
 }
 
 enum InteractionType {

@@ -129,52 +129,19 @@ class SpotService {
     return;
   };
 
-  // 명소 리뷰 등록
-  setReview = async (spotId, userId, rate, content) => {
-    //spotId가 존재하지 않을 때 에러반환
-    const getOneSpot = await this.spotRepository.getOneSpot(spotId);
-    if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
+  // 명소 등록
+  setSpot = async (spotName, imageUrl) => {
+    // 중복되는 명소 이름이 있을때 에러반환
+    const existedSpot = await this.spotRepository.findSpotName(spotName);
+    if (existedSpot)
+      throw new BadRequestError(MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME);
 
-    const setReview = await this.spotRepository.setReview(
-      spotId,
-      userId,
-      rate,
-      content,
+    const setSpot = await this.spotRepository.setSpot(
+      spotName,
+      districtId,
+      imageUrl,
     );
-
-    return {
-      spotId: setReview.spotId,
-      userId: setReview.userId,
-      type: setReview.type,
-    };
-  };
-
-  // 명소 리뷰 전체 조회
-  getAllReview = async (spotId) => {
-    const getAllReview = await this.spotRepository.getAllReview(spotId);
-
-    const AllReview = getAllReview.map((review) => ({
-      spotId: review.spotId,
-      userId: review.userId,
-      rate: review.rate,
-      content: review.content,
-    }));
-    return AllReview;
-  };
-
-  // 명소 리뷰 상세 조회
-  getOneReview = async (spotId, reviewId, userId) => {
-    const getOneReview = await this.spotRepository.getOneReview(
-      spotId,
-      reviewId,
-      userId,
-    );
-    return {
-      spotId: getOneReview.spotId,
-      userId: getOneReview.userId,
-      rate: getOneReview.rate,
-      content: getOneReview.content,
-    };
+    return setSpot;
   };
 }
 

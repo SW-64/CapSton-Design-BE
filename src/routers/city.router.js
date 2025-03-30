@@ -11,22 +11,6 @@ const cityRepository = new CityRepository(prisma);
 const cityService = new CityService(cityRepository);
 const cityController = new CityController(cityService);
 
-// 명소 등록
-cityRouter.post(
-  '/:cityId/districts/:districtId/spots',
-  imageUploader.array('image', 10),
-  cityController.setSpot,
-);
-
-// 해당 도시 전체 명소 조회
-cityRouter.get('/:cityId/spots', cityController.getAllDistrictSpot);
-
-// 해당 행정구역 전체 명소 조회
-cityRouter.get(
-  '/:cityId/districts/:districtId/spots',
-  cityController.getOneDistrictSpot,
-);
-
 // 저작권 무료 API 전체 명소 조회
 cityRouter.get('/:cityId/free-images', cityController.getFreeImages);
 

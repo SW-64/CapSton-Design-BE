@@ -87,41 +87,24 @@ class SpotRepository {
     });
   };
 
-  // 명소 리뷰 등록
-  setReview = async (spotId, userId, rate, content) => {
-    return await prisma.review.create({
+  // 명소 이름으로 명소 찾기
+  findSpotName = async (spotName) => {
+    return await prisma.spot.findFirst({
+      where: {
+        spotName: spotName,
+      },
+    });
+  };
+
+  // 명소 등록
+  setSpot = async (spotName, districtId, imageUrl) => {
+    console.log(imageUrl);
+    return await prisma.spot.create({
       data: {
-        spotId,
-        userId,
-        rate,
-        content,
+        spotName: spotName,
+        districtId: districtId,
+        imageUrl: imageUrl,
       },
-    });
-  };
-
-  // 명소 리뷰 전체 조회
-  getAllReview = async (spotId) => {
-    return await prisma.review.findMany({
-      where: {
-        spotId,
-      },
-    });
-  };
-
-  // 명소 리뷰 상세 조회
-  getOneReview = async (spotId, reviewId, userId) => {
-    return await prisma.review.findFirst({
-      where: {
-        spotId,
-        reviewId,
-      },
-      // include: {
-      //   user: {
-      //     select: {
-      //       nickName: true,
-      //     },
-      //   },
-      // },
     });
   };
 }

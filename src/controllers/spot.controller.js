@@ -119,6 +119,24 @@ class SpotController {
       next(error);
     }
   };
+
+  // 명소 등록
+  setSpot = async (req, res, next) => {
+    try {
+      //사진을 저장할 파일 위치 경로
+      const imageUrl = req.files[0].location;
+      const { spotName } = req.body;
+
+      const setSpot = await this.spotService.setSpot(spotName, imageUrl);
+      return res.status(HTTP_STATUS.CREATED).json({
+        status: HTTP_STATUS.CREATED,
+        message: MESSAGES.CITY.SET_SPOT.SUCCEED,
+        data: setSpot,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default SpotController;

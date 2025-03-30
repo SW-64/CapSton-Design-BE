@@ -128,6 +128,21 @@ class SpotService {
 
     return;
   };
+
+  // 명소 등록
+  setSpot = async (spotName, imageUrl) => {
+    // 중복되는 명소 이름이 있을때 에러반환
+    const existedSpot = await this.spotRepository.findSpotName(spotName);
+    if (existedSpot)
+      throw new BadRequestError(MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME);
+
+    const setSpot = await this.spotRepository.setSpot(
+      spotName,
+      districtId,
+      imageUrl,
+    );
+    return setSpot;
+  };
 }
 
 export default SpotService;

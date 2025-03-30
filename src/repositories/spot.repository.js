@@ -86,6 +86,27 @@ class SpotRepository {
       },
     });
   };
+
+  // 명소 이름으로 명소 찾기
+  findSpotName = async (spotName) => {
+    return await prisma.spot.findFirst({
+      where: {
+        spotName: spotName,
+      },
+    });
+  };
+
+  // 명소 등록
+  setSpot = async (spotName, districtId, imageUrl) => {
+    console.log(imageUrl);
+    return await prisma.spot.create({
+      data: {
+        spotName: spotName,
+        districtId: districtId,
+        imageUrl: imageUrl,
+      },
+    });
+  };
 }
 
 export default SpotRepository;

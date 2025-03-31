@@ -13,16 +13,7 @@ class SpotRepository {
       where: {
         spotId: spotId,
       },
-      include: {
-        district: {
-          select: {
-            districtId: true,
-            cityId: true,
-          },
-        },
-      },
     });
-    console.log(getOneSpot);
     // await client.hSet(`spotId:${spotId}`, {
     //   spotId: getOneSpot.spotId,
     //   spotName: getOneSpot.spotName,
@@ -45,12 +36,12 @@ class SpotRepository {
   };
 
   // 명소 북마크 등록
-  setInteraction = async (spotId, userId, type) => {
+  setInteraction = async (spotId, userId) => {
     return await prisma.interaction.create({
       data: {
         spotId,
         userId,
-        type,
+        type: 'BOOKMARK',
       },
     });
   };
@@ -97,12 +88,11 @@ class SpotRepository {
   };
 
   // 명소 등록
-  setSpot = async (spotName, districtId, imageUrl) => {
+  setSpot = async (spotName, imageUrl) => {
     console.log(imageUrl);
     return await prisma.spot.create({
       data: {
         spotName: spotName,
-        districtId: districtId,
         imageUrl: imageUrl,
       },
     });

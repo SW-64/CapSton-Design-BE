@@ -34,6 +34,7 @@ model Spot {
   like        Int          @default(0)
   imageUrl    Json?        @map("image_url")
   isPublic    IsPublic     @default(PUBLIC)
+  extraInfo   String
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
   reviews     Review[]

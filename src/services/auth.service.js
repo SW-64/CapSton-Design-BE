@@ -13,7 +13,14 @@ class AuthService {
   authRepository = new AuthRepository();
   userRepository = new UserRepository();
   // 회원가입
-  signUp = async (name, email, password, passwordConfirm, nickname) => {
+  signUp = async (
+    name,
+    email,
+    password,
+    passwordConfirm,
+    nickname,
+    profile,
+  ) => {
     // 비밀번호와 비밀번호 확인이 맞지않을 경우 에러 반환
     if (password != passwordConfirm) {
       throw new ConflictError(MESSAGES.AUTH.SIGN_UP.NOT_MATCHED_WITH_PASSWORD);
@@ -21,7 +28,6 @@ class AuthService {
 
     // 중복된 이메일이 있을 시 에러 반환
     const existedEmail = await this.userRepository.getMyInfo(email);
-    console.log(existedEmail);
     if (existedEmail)
       throw new ConflictError(MESSAGES.AUTH.SIGN_UP.EXISTED_EMAIL);
 
@@ -30,11 +36,13 @@ class AuthService {
       email,
       password,
       nickname,
+      profile,
     );
     return {
       name: signUp.name,
       email: signUp.email,
       nickName: signUp.nickName,
+      profile: signUp.profile,
     };
   };
 

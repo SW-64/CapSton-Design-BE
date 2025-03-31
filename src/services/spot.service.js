@@ -4,19 +4,12 @@ import SpotRepository from '../repositories/spot.repository.js';
 class SpotService {
   spotRepository = new SpotRepository();
 
-  //상세 명소 조회
+  // 상세 명소 조회
   getOneSpot = async (spotId) => {
     const getOneSpot = await this.spotRepository.getOneSpot(spotId);
     //spotId가 존재하지 않을 때 에러반환
     if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
-    return {
-      spotId: getOneSpot.spotId,
-      spotName: getOneSpot.spotName,
-      like: getOneSpot.like,
-      imageUrl: getOneSpot.imageUrl,
-      districtId: getOneSpot.districtId,
-      cityId: getOneSpot.cityId,
-    };
+    return getOneSpot;
   };
 
   // 명소 삭제
@@ -25,12 +18,7 @@ class SpotService {
     //spotId가 존재하지 않을 때 에러반환
     if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
     const deleteSpot = await this.spotRepository.deleteSpot(spotId);
-    return {
-      spotId: deleteSpot.spotId,
-      spotName: deleteSpot.spotName,
-      region: deleteSpot.region,
-      like: deleteSpot.like,
-    };
+    return;
   };
 
   // 명소 북마크 등록
@@ -38,18 +26,13 @@ class SpotService {
     //spotId가 존재하지 않을 때 에러반환
     const getOneSpot = await this.spotRepository.getOneSpot(spotId);
     if (!getOneSpot) throw new NotFoundError('해당되는 명소가 없습니다.');
-    const type = 'BOOKMARK';
+
     const setBookmark = await this.spotRepository.setInteraction(
       spotId,
       userId,
-      type,
     );
 
-    return {
-      spotId: setBookmark.spotId,
-      userId: setBookmark.userId,
-      type: setBookmark.type,
-    };
+    return setBookmark;
   };
 
   // 명소 북마크 조회
@@ -136,11 +119,7 @@ class SpotService {
     if (existedSpot)
       throw new BadRequestError(MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME);
 
-    const setSpot = await this.spotRepository.setSpot(
-      spotName,
-      districtId,
-      imageUrl,
-    );
+    const setSpot = await this.spotRepository.setSpot(spotName, imageUrl);
     return setSpot;
   };
 }

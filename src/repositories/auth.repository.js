@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
 class AuthRepository {
   // 회원가입
-  signUp = async (name, email, password, nickName) => {
+  signUp = async (name, email, password, nickName, profile) => {
     const hashedPassword = bcrypt.hashSync(password, +HASHROUNDS);
     const { password: _, ...user } = await prisma.user.create({
       data: {
@@ -14,6 +14,7 @@ class AuthRepository {
         password: hashedPassword,
         name,
         nickName,
+        profile,
       },
     });
     return user;

@@ -130,7 +130,7 @@ class SpotController {
       const setSpot = await this.spotService.setSpot(spotName, imageUrl);
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
-        message: MESSAGES.CITY.SET_SPOT.SUCCEED,
+        message: 'MESSAGES.CITY.SET_SPOT.SUCCEED',
         data: setSpot,
       });
     } catch (err) {

@@ -18,6 +18,51 @@ class UserRepository {
     });
     return user;
   };
+
+  // 사용자가 올린 명소 조회
+  getAllSpot = async () => {
+    return await prisma.user.findMany({
+      where: {
+        Spot: {
+          some: {
+            isPublic: 'PUBLIC',
+          },
+        },
+      },
+      select: {
+        userId: true,
+        nickName: true,
+        profile: true,
+        Spot: {
+          where: {
+            isPublic: 'PUBLIC',
+          },
+          select: {
+            spotId: true,
+            spotName: true,
+            imageUrl: true,
+          },
+        },
+      },
+    });
+  };
+
+  // 내가 올린 명소 조회
+  getMySpot = async (userId) => {
+    const data = await prisma.user.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        userId: true,
+        nickName: true,
+        profile: true,
+        Spot: true,
+      },
+    });
+
+    return data;
+  };
 }
 
 export default UserRepository;

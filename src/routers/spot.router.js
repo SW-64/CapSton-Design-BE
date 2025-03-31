@@ -34,4 +34,10 @@ spotRouter.post('/:spotId/like', spotController.setLike);
 // 명소 좋아요 삭제
 spotRouter.delete('/:spotId/like', spotController.deleteLike);
 
+// 명소 공개/비공개 전환
+spotRouter.post('/:spotId/visibility', spotController.changeVisibility);
+
+// 사용자가 올린 전체 명소 조회
+spotRouter.get('', spotController.getAllSpot);
+
 export { spotRouter };

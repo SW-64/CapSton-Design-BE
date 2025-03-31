@@ -88,12 +88,27 @@ class SpotRepository {
   };
 
   // 명소 등록
-  setSpot = async (spotName, imageUrl) => {
+  setSpot = async (spotName, imageUrl, extraInfo, userId) => {
     console.log(imageUrl);
     return await prisma.spot.create({
       data: {
-        spotName: spotName,
-        imageUrl: imageUrl,
+        spotName,
+        imageUrl,
+        extraInfo,
+        userId,
+      },
+    });
+  };
+
+  // 명소 사진 공개/비공개 전환
+  changeVisibility = async (userId, spotId, newVisibility) => {
+    return await prisma.spot.update({
+      where: {
+        userId,
+        spotId,
+      },
+      data: {
+        isPublic: newVisibility,
       },
     });
   };

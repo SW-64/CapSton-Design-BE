@@ -23,13 +23,14 @@ model User {
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
   interactions Interaction[]
-  reviews      Review[]
+  Spot         Spot[]
 
   @@map("users")
 }
 
 model Spot {
   spotId      Int          @id @default(autoincrement())
+  userId      Int
   spotName    String
   like        Int          @default(0)
   imageUrl    Json?        @map("image_url")
@@ -37,25 +38,12 @@ model Spot {
   extraInfo   String
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
-  reviews     Review[]
   interaction Interaction?
   categorys   Category[]
 
+  user User @relation(fields: [userId], references: [userId])
+
   @@map("spots")
-}
-
-model Review {
-  reviewId  Int      @id @default(autoincrement())
-  spotId    Int
-  userId    Int
-  rate      Int
-  content   String   @db.Text
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  spot      Spot     @relation(fields: [spotId], references: [spotId])
-  user      User     @relation(fields: [userId], references: [userId])
-
-  @@map("reviews")
 }
 
 model Category {

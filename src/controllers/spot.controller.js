@@ -125,13 +125,55 @@ class SpotController {
     try {
       //사진을 저장할 파일 위치 경로
       const imageUrl = req.files[0].location;
-      const { spotName } = req.body;
+      const userId = req.user.userId;
+      const { spotName, extraInfo } = req.body;
 
-      const setSpot = await this.spotService.setSpot(spotName, imageUrl);
+      const setSpot = await this.spotService.setSpot(
+        spotName,
+        imageUrl,
+        extraInfo,
+        userId,
+      );
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
         message: 'MESSAGES.CITY.SET_SPOT.SUCCEED',
         data: setSpot,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // 명소 사진 공개/비공개 전환
+  changeVisibility = async (req, res, next) => {
+    try {
+      const { spotId } = req.params;
+      const user = req.user;
+
+      const changeVisibility = await this.spotService.changeVisibility(
+        +spotId,
+        user.userId,
+      );
+      console.log(changeVisibility);
+      return res.status(HTTP_STATUS.CREATED).json({
+        status: HTTP_STATUS.CREATED,
+        message: '명소 사진 공개 성공',
+        data: changeVisibility,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // 사용자가 올린 전체 명소 조회
+  getAllSpot = async (req, res, next) => {
+    try {
+      const getAllSpot = await this.spotService.getAllSpot();
+
+      return res.status(HTTP_STATUS.CREATED).json({
+        status: HTTP_STATUS.CREATED,
+        message: '명소 전체 조회 성공',
+        data: getAllSpot,
       });
     } catch (err) {
       next(err);

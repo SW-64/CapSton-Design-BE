@@ -37,6 +37,7 @@ app.get('/api/tourist-photos', async (req, res) => {
   try {
     const pages = Array.from({ length: 20 }, (_, i) => i + 1);
     const accessToken = process.env.PUBLIC_DATA_PORTAL; // .env 파일에 API 키 설정
+    console.log('zzzz');
     const responses = await Promise.all(
       pages.map((page) =>
         axios.get(
@@ -44,7 +45,7 @@ app.get('/api/tourist-photos', async (req, res) => {
         ),
       ),
     );
-
+    console.log(responses);
     // 데이터 가공
     const allData = responses
       .map((response) => JSON.parse(response.data.data).dataList)

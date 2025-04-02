@@ -25,14 +25,6 @@ import cors from 'cors';
 export const app = express();
 const port = SERVER_PORT;
 
-// app.use(
-//   cors({
-//     origin: 'https://peopletophoto.site', // 프론트엔드 도메인만 허용
-//     credentials: true, // 쿠키 전송 허용 (필요한 경우)
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
-//   }),
-// );
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);
@@ -40,7 +32,30 @@ app.use(globalErrorHandler);
 app.get('/', (req, res) => {
   return res.json('hello world test');
 });
+// API 데이터 가져오기
+app.get('/api/tourist-photos', async (req, res) => {
+  try {
+    const pages = Array.from({ length: 20 }, (_, i) => i + 1);
+    const accessToken = process.env.PUBLIC_DATA_PORTAL; // .env 파일에 API 키 설정
+    const responses = await Promise.all(
+      pages.map((page) =>
+        axios.get(
+          `https://api.incheoneasy.com/api/tour/touristPhotoInfo?accessToken=${accessToken}&pageNo=${page}&trrsrtAddr=연수구`,
+        ),
+      ),
+    );
 
+    // 데이터 가공
+    const allData = responses
+      .map((response) => JSON.parse(response.data.data).dataList)
+      .flat();
+
+    res.json(allData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: '데이터를 불러오는 데 실패했습니다.' });
+  }
+});
 app.listen(port, async () => {
   console.log(`Server is listening on ${port}`);
 });

@@ -11,7 +11,7 @@ const spotService = new SpotService(spotRepository);
 const spotController = new SpotController(spotService);
 
 // 사용자가 올린 전체 명소 조회
-spotRouter.get('', spotController.getAllSpot);
+spotRouter.get('/user-photo', spotController.getAllSpot);
 
 // 명소 등록
 spotRouter.post('', imageUploader.array('image', 10), spotController.setSpot);

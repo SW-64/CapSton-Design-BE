@@ -4,6 +4,7 @@ import SpotService from '../services/spot.service.js';
 import imageUploader from '../middlewares/image-upload.middleware.js';
 import { prisma } from '../utils/prisma.util.js';
 import express from 'express';
+import { requireAccessToken } from './../middlewares/require-access-token.middlewares.js';
 
 const spotRouter = express.Router();
 const spotRepository = new SpotRepository(prisma);
@@ -11,7 +12,7 @@ const spotService = new SpotService(spotRepository);
 const spotController = new SpotController(spotService);
 
 // 사용자가 올린 전체 명소 조회
-spotRouter.get('/user-photo', spotController.getAllSpot);
+spotRouter.get('/user-photo', requireAccessToken, spotController.getAllSpot);
 
 // 명소 등록
 spotRouter.post('', imageUploader.array('image', 10), spotController.setSpot);

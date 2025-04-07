@@ -16,7 +16,7 @@ export const globalErrorHandler = (err, req, res, next) => {
       message: err.message,
     });
   }
-
+  console.log(err);
   return res.status(500).json({
     status: 500,
     message: '예상치 못한 에러가 발생하였습니다.',

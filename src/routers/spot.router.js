@@ -11,6 +11,9 @@ const spotRepository = new SpotRepository(prisma);
 const spotService = new SpotService(spotRepository);
 const spotController = new SpotController(spotService);
 
+// 명소 북마크 조회
+spotRouter.get('/bookmark', spotController.getBookmark);
+
 // 사용자가 올린 전체 명소 조회
 spotRouter.get('/user-photo', requireAccessToken, spotController.getAllSpot);
 
@@ -23,9 +26,6 @@ spotRouter.get('/:spotId', spotController.getOneSpot);
 // 명소 삭제
 spotRouter.delete('/:spotId', spotController.deleteSpot);
 
-// 명소 북마크 조회
-spotRouter.get('/bookmark', spotController.getBookmark);
-
 // 명소 북마크 등록
 spotRouter.post('/:spotId/bookmark', spotController.setBookmark);
 
@@ -33,10 +33,10 @@ spotRouter.post('/:spotId/bookmark', spotController.setBookmark);
 spotRouter.delete('/:spotId/bookmark', spotController.deleteBookmark);
 
 // 명소 좋아요 등록
-spotRouter.post('/:spotId/like', spotController.setLike);
+// spotRouter.post('/:spotId/like', spotController.setLike);
 
-// 명소 좋아요 삭제
-spotRouter.delete('/:spotId/like', spotController.deleteLike);
+// // 명소 좋아요 삭제
+// spotRouter.delete('/:spotId/like', spotController.deleteLike);
 
 // 명소 공개/비공개 전환
 spotRouter.post('/:spotId/visibility', spotController.changeVisibility);

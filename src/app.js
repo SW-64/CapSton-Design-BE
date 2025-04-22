@@ -9,6 +9,7 @@ import {
 } from './constants/env.constant.js';
 import { createClient } from 'redis';
 import axios from 'axios';
+import cors from 'cors';
 
 // const elasticacheHost = ELASTICACHE_HOST;
 // const elasticachePort = ELASTICACHE_PORT;
@@ -24,7 +25,13 @@ import axios from 'axios';
 
 export const app = express();
 const port = SERVER_PORT;
-
+// CORS 설정
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // 프론트 주소
+    credentials: true, // 쿠키 주고받기 허용
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);

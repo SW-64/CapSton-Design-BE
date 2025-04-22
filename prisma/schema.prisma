@@ -32,7 +32,6 @@ model Spot {
   spotId      Int          @id @default(autoincrement())
   userId      Int
   spotName    String
-  like        Int          @default(0)
   imageUrl    Json?        @map("image_url")
   isPublic    IsPublic     @default(PUBLIC)
   extraInfo   String

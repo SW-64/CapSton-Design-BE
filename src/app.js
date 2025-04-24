@@ -28,7 +28,7 @@ const port = SERVER_PORT;
 // CORS 설정
 app.use(
   cors({
-    origin: 'http://localhost:3000', // 프론트 주소
+    origin: '*', // 프론트 주소
     credentials: true, // 쿠키 주고받기 허용
   }),
 );
@@ -39,31 +39,7 @@ app.use(globalErrorHandler);
 app.get('/', (req, res) => {
   return res.json('hello world test');
 });
-// API 데이터 가져오기
-app.get('/api/tourist-photos', async (req, res) => {
-  try {
-    const pages = Array.from({ length: 20 }, (_, i) => i + 1);
-    const accessToken = process.env.PUBLIC_DATA_PORTAL; // .env 파일에 API 키 설정
-    console.log('start');
-    const responses = await Promise.all(
-      pages.map((page) =>
-        axios.get(
-          `https://api.incheoneasy.com/api/tour/touristPhotoInfo?accessToken=${accessToken}&pageNo=${page}&trrsrtAddr=연수구`,
-        ),
-      ),
-    );
 
-    // 데이터 가공
-    const allData = responses
-      .map((response) => JSON.parse(response.data.data).dataList)
-      .flat();
-    console.log('finish');
-    res.json(allData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: '데이터를 불러오는 데 실패했습니다.' });
-  }
-});
 app.listen(port, async () => {
   console.log(`Server is listening on ${port}`);
 });

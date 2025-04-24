@@ -11,6 +11,9 @@ const spotRepository = new SpotRepository(prisma);
 const spotService = new SpotService(spotRepository);
 const spotController = new SpotController(spotService);
 
+// 명소 외부 API 조회
+spotRouter.get('/external', spotController.getExternalSpot);
+
 // 명소 북마크 조회
 spotRouter.get('/bookmark', spotController.getBookmark);
 

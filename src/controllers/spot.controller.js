@@ -1,5 +1,7 @@
+import fetch from 'node-fetch';
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import SpotService from '../services/spot.service.js';
+import { KOREA_TOUR_DATA } from './../constants/env.constant.js';
 
 class SpotController {
   spotService = new SpotService();
@@ -175,6 +177,21 @@ class SpotController {
         message: '명소 전체 조회 성공',
         data: getAllSpot,
       });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // 명소 외부 API 조회
+  getExternalSpot = async (req, res, next) => {
+    try {
+      const serviceKey = KOREA_TOUR_DATA;
+      const reqUrl = `https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1?serviceKey=${serviceKey}&arrange=C&MobileOS=ETC&MobileApp=AppTesting&numOfRows=100&pageNo=1&_type=json`;
+      const response = await fetch(reqUrl);
+      const data = await response.json();
+
+      console.log(JSON.stringify(data));
+      res.json(data.response.body.items.item); // 클라이언트에도 전송
     } catch (err) {
       next(err);
     }

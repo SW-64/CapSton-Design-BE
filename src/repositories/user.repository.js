@@ -21,28 +21,25 @@ class UserRepository {
 
   // 사용자가 올린 명소 조회
   getAllSpot = async () => {
-    return await prisma.user.findMany({
+    return await prisma.spot.findMany({
       where: {
-        Spot: {
-          some: {
-            isPublic: 'PUBLIC',
+        isPublic: 'PUBLIC',
+      },
+      select: {
+        spotId: true,
+        spotName: true,
+        imageUrl: true,
+        extraInfo: true,
+        userId: true,
+        user: {
+          select: {
+            nickName: true,
+            profile: true,
           },
         },
       },
-      select: {
-        userId: true,
-        nickName: true,
-        profile: true,
-        Spot: {
-          where: {
-            isPublic: 'PUBLIC',
-          },
-          select: {
-            spotId: true,
-            spotName: true,
-            imageUrl: true,
-          },
-        },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   };

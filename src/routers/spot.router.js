@@ -15,25 +15,38 @@ const spotController = new SpotController(spotService);
 spotRouter.get('/external', spotController.getExternalSpot);
 
 // 명소 북마크 조회
-spotRouter.get('/bookmark', spotController.getBookmark);
+spotRouter.get('/bookmark', requireAccessToken, spotController.getBookmark);
 
 // 사용자가 올린 전체 명소 조회
 spotRouter.get('/user-photo', requireAccessToken, spotController.getAllSpot);
 
 // 명소 등록
-spotRouter.post('', imageUploader.array('image', 10), spotController.setSpot);
+spotRouter.post(
+  '',
+  requireAccessToken,
+  imageUploader.array('image', 10),
+  spotController.setSpot,
+);
 
 // 상세 명소 조회
-spotRouter.get('/:spotId', spotController.getOneSpot);
+spotRouter.get('/:spotId', requireAccessToken, spotController.getOneSpot);
 
 // 명소 삭제
-spotRouter.delete('/:spotId', spotController.deleteSpot);
+spotRouter.delete('/:spotId', requireAccessToken, spotController.deleteSpot);
 
 // 명소 북마크 등록
-spotRouter.post('/:spotId/bookmark', spotController.setBookmark);
+spotRouter.post(
+  '/:spotId/bookmark',
+  requireAccessToken,
+  spotController.setBookmark,
+);
 
 // 명소 북마크 삭제
-spotRouter.delete('/:spotId/bookmark', spotController.deleteBookmark);
+spotRouter.delete(
+  '/:spotId/bookmark',
+  requireAccessToken,
+  spotController.deleteBookmark,
+);
 
 // 명소 좋아요 등록
 // spotRouter.post('/:spotId/like', spotController.setLike);
@@ -42,6 +55,10 @@ spotRouter.delete('/:spotId/bookmark', spotController.deleteBookmark);
 // spotRouter.delete('/:spotId/like', spotController.deleteLike);
 
 // 명소 공개/비공개 전환
-spotRouter.post('/:spotId/visibility', spotController.changeVisibility);
+spotRouter.post(
+  '/:spotId/visibility',
+  requireAccessToken,
+  spotController.changeVisibility,
+);
 
 export { spotRouter };

@@ -63,9 +63,7 @@ class SpotService {
     );
     if (!getBookmark) throw new NotFoundError('해당되는 북마크가 없습니다.');
     const deleteBookmark = await this.spotRepository.deleteInteraction(
-      spotId,
-      userId,
-      type,
+      getBookmark.interactionId,
     );
 
     return;

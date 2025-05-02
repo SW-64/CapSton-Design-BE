@@ -29,36 +29,46 @@ model User {
 }
 
 model Spot {
-  spotId      Int          @id @default(autoincrement())
+  spotId      Int           @id @default(autoincrement())
   userId      Int
   spotName    String
-  imageUrl    Json?        @map("image_url")
-  isPublic    IsPublic     @default(PUBLIC)
+  imageUrl    Json?         @map("image_url")
+  isPublic    IsPublic      @default(PUBLIC)
   extraInfo   String
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
-  interaction Interaction?
-  categorys   Category[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  interaction Interaction[]
 
-  user User @relation(fields: [userId], references: [userId])
+  user         User           @relation(fields: [userId], references: [userId])
+  SpotCategory SpotCategory[]
 
   @@map("spots")
 }
 
 model Category {
-  categoryId Int    @id @default(autoincrement())
-  spotId     Int
-  Category   String
-  spot       Spot   @relation(fields: [spotId], references: [spotId])
+  categoryId   Int            @id @default(autoincrement())
+  name         String
+  isCustom     Boolean        @default(false)
+  SpotCategory SpotCategory[]
 
-  @@map("categorys")
+  @@map("categories")
+}
+
+model SpotCategory {
+  spotCategoryId Int      @id @default(autoincrement())
+  spotId         Int      @map("spot_id")
+  categoryId     Int      @map("category_id")
+  spot           Spot     @relation(fields: [spotId], references: [spotId])
+  category       Category @relation(fields: [categoryId], references: [categoryId])
+
+  @@map("spot_categories")
 }
 
 model Interaction {
   interactionId Int             @id @default(autoincrement())
-  spotId        Int             @unique
+  spotId        Int
   userId        Int
-  type          InteractionType @default(LIKE)
+  type          InteractionType @default(BOOKMARK)
   spot          Spot            @relation(fields: [spotId], references: [spotId])
   user          User            @relation(fields: [userId], references: [userId])
 

@@ -37,6 +37,7 @@ class SpotRepository {
 
   // 명소 북마크 등록
   setInteraction = async (spotId, userId) => {
+    console.log(spotId, userId);
     return await prisma.interaction.create({
       data: {
         spotId,
@@ -57,12 +58,10 @@ class SpotRepository {
   };
 
   // 명소 북마크 삭제
-  deleteInteraction = async (spotId, userId, type) => {
+  deleteInteraction = async (interactionId) => {
     return await prisma.interaction.delete({
       where: {
-        spotId: spotId,
-        userId: userId,
-        type,
+        interactionId,
       },
     });
   };

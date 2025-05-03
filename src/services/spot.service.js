@@ -1,10 +1,12 @@
-import { NotFoundError } from '../errors/http.error.js';
+import { BadRequestError, NotFoundError } from '../errors/http.error.js';
+import CategoryRepository from '../repositories/categroy.repository.js';
 import SpotRepository from '../repositories/spot.repository.js';
 import UserRepository from '../repositories/user.repository.js';
 
 class SpotService {
   spotRepository = new SpotRepository();
   userRepository = new UserRepository();
+  categoryRepository = new CategoryRepository();
   // 상세 명소 조회
   getOneSpot = async (spotId) => {
     const getOneSpot = await this.spotRepository.getOneSpot(spotId);
@@ -112,17 +114,28 @@ class SpotService {
   };
 
   // 명소 등록
-  setSpot = async (spotName, imageUrl, extraInfo, userId) => {
+  setSpot = async (spotName, imageUrl, extraInfo, userId, categoryList) => {
     // 중복되는 명소 이름이 있을때 에러반환
     const existedSpot = await this.spotRepository.findSpotName(spotName);
     if (existedSpot)
-      throw new BadRequestError(MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME);
+      throw new BadRequestError('MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME');
 
+    const categories = categoryList
+      ? await Promise.all(
+          categoryList.map(async (category) => {
+            const categoryList =
+              await this.categoryRepository.getOneCategory(+category);
+            if (!categoryList)
+              throw new NotFoundError('존재하지 않는 카테고리입니다.');
+          }),
+        )
+      : null;
     const setSpot = await this.spotRepository.setSpot(
       spotName,
       imageUrl,
       extraInfo,
       userId,
+      categoryList,
     );
     return setSpot;
   };
@@ -146,8 +159,23 @@ class SpotService {
   };
 
   // 사용자가 올린 전체 명소 조회
-  getAllSpot = async () => {
-    const getAllSpot = await this.userRepository.getAllSpot();
+  getAllSpot = async (categoryList) => {
+    const existedCategory =
+      !Array.isArray(categoryList) && categoryList
+        ? [categoryList]
+        : categoryList;
+
+    const categories = existedCategory
+      ? await Promise.all(
+          existedCategory.map(async (category) => {
+            const existedCategory =
+              await this.categoryRepository.getOneCategory(+category);
+            if (!existedCategory)
+              throw new NotFoundError('존재하지 않는 카테고리입니다.');
+          }),
+        )
+      : null;
+    const getAllSpot = await this.spotRepository.getAllSpot(existedCategory);
     return getAllSpot;
   };
 }

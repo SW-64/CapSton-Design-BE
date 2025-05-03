@@ -128,13 +128,14 @@ class SpotController {
       //사진을 저장할 파일 위치 경로
       const imageUrl = req.files[0].location;
       const userId = req.user.userId;
-      const { spotName, extraInfo } = req.body;
+      const { spotName, extraInfo, categoryList } = req.body;
 
       const setSpot = await this.spotService.setSpot(
         spotName,
         imageUrl,
         extraInfo,
         userId,
+        categoryList,
       );
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
@@ -170,10 +171,11 @@ class SpotController {
   // 사용자가 올린 전체 명소 조회
   getAllSpot = async (req, res, next) => {
     try {
-      const getAllSpot = await this.spotService.getAllSpot();
+      const categoryList = req.query.category;
+      const getAllSpot = await this.spotService.getAllSpot(categoryList);
 
-      return res.status(HTTP_STATUS.CREATED).json({
-        status: HTTP_STATUS.CREATED,
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
         message: '명소 전체 조회 성공',
         data: getAllSpot,
       });

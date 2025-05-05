@@ -61,6 +61,7 @@ jobs:
             echo "ELASTICACHE_USER=${{ secrets.ELASTICACHE_USER }}" >> .env
             echo "ELASTICACHE_PASSWORD=${{ secrets.ELASTICACHE_PASSWORD }}" >> .env
             echo "PUBLIC_DATA_PORTAL=${{ secrets.PUBLIC_DATA_PORTAL }}" >> .env
+            echo "KOREA_TOUR_DATA=${{ secrets.KOREA_TOUR_DATA }}" >> .env
 
             # 의존성 설치
             yarn --frozen-lockfile

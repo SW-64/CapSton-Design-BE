@@ -36,6 +36,26 @@ class UsertController {
       next(err);
     }
   };
+
+  // 내 정보 수정
+  updateMyInfo = async (req, res, next) => {
+    try {
+      const user = req.user;
+      const { nickname, profile } = req.body;
+      const data = await this.userService.updateMyInfo(
+        user.userId,
+        nickname,
+        profile,
+      );
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '내 정보 수정 완료',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default UsertController;

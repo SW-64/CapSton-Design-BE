@@ -28,7 +28,7 @@ const port = SERVER_PORT;
 // CORS 설정
 app.use(
   cors({
-    origin: 'http://localhost:3000', // 프론트 주소
+    origin: '*', // 프론트 주소
     credentials: true, // 쿠키 주고받기 허용
   }),
 );

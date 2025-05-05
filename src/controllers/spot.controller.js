@@ -25,7 +25,8 @@ class SpotController {
   deleteSpot = async (req, res, next) => {
     try {
       const { spotId } = req.params;
-      const deleteSpot = await this.spotService.deleteSpot(+spotId);
+      const userId = req.user.id;
+      const deleteSpot = await this.spotService.deleteSpot(+spotId, userId);
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
         message: '명소 삭제 성공',
@@ -129,7 +130,7 @@ class SpotController {
       const imageUrl = req.files[0].location;
       const userId = req.user.userId;
       const { spotName, extraInfo, categoryList } = req.body;
-
+      console.log(req.body);
       const setSpot = await this.spotService.setSpot(
         spotName,
         imageUrl,
@@ -194,6 +195,29 @@ class SpotController {
 
       console.log(JSON.stringify(data));
       res.json(data.response.body.items.item); // 클라이언트에도 전송
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // 명소 수정
+  updateSpot = async (req, res, next) => {
+    try {
+      const { extraInfo, categoryList } = req.body;
+      const { spotId } = req.params;
+      const userId = req.user.id;
+      const data = await this.spotService.updateSpot(
+        extraInfo,
+        +spotId,
+        userId,
+        categoryList,
+      );
+
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '명소 수정 성공',
+        data,
+      });
     } catch (err) {
       next(err);
     }

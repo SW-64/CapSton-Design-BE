@@ -17,4 +17,7 @@ userRouter.get('/getMyInfo', requireAccessToken, userController.getMyInfo);
 // 내가 올린 명소 조회
 userRouter.get('/getMySpot', requireAccessToken, userController.getMySpot);
 
+// 내 정보 수정
+userRouter.patch('/me', requireAccessToken, userController.updateMyInfo);
+
 export { userRouter };

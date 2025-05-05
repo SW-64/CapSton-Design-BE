@@ -29,7 +29,6 @@ const port = SERVER_PORT;
 app.use(
   cors({
     origin: '*', // 프론트 주소
-    credentials: true, // 쿠키 주고받기 허용
   }),
 );
 app.use(express.json());

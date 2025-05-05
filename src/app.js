@@ -26,11 +26,11 @@ import cors from 'cors';
 export const app = express();
 const port = SERVER_PORT;
 // CORS 설정
-app.use(
-  cors({
-    origin: 'https://www.peopletophoto.site', // 프론트 주소
-  }),
-);
+// app.use(
+//   cors({
+//     origin: 'https://www.peopletophoto.site', // 프론트 주소
+//   }),
+// );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(apiRouter);

@@ -28,7 +28,7 @@ const port = SERVER_PORT;
 // CORS 설정
 app.use(
   cors({
-    origin: '*', // 프론트 주소
+    origin: 'https://www.peopletophoto.site', // 프론트 주소
   }),
 );
 app.use(express.json());

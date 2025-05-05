@@ -35,6 +35,20 @@ class UserRepository {
 
     return data;
   };
+
+  // 내 정보 수정
+  updateMyInfo = async (userId, nickName, profile) => {
+    console.log(nickName);
+    const user = await prisma.user.update({
+      where: {
+        userId,
+      },
+      data: {
+        ...(nickName && { nickName }),
+        ...(profile && { profile }),
+      },
+    });
+  };
 }
 
 export default UserRepository;

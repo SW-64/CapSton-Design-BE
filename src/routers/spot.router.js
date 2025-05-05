@@ -61,4 +61,7 @@ spotRouter.post(
   spotController.changeVisibility,
 );
 
+// 명소 수정
+spotRouter.patch('/:spotId', requireAccessToken, spotController.updateSpot);
+
 export { spotRouter };

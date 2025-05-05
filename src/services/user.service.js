@@ -21,6 +21,16 @@ class UserService {
     const spots = await this.userRepository.getMySpot(userId);
     return spots;
   };
+
+  // 내 정보 수정
+  updateMyInfo = async (userId, nickname, profile) => {
+    const user = await this.userRepository.updateMyInfo(
+      userId,
+      nickname,
+      profile,
+    );
+    return user;
+  };
 }
 
 export default UserService;

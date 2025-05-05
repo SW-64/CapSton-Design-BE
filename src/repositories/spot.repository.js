@@ -1,3 +1,4 @@
+import { NotFoundError } from '../errors/http.error.js';
 import { prisma } from '../utils/prisma.util.js';
 
 class SpotRepository {
@@ -39,7 +40,22 @@ class SpotRepository {
 
   // 명소 삭제
   deleteSpot = async (spotId) => {
-    const deleteCategory = await prisma.spotCategory.delete({});
+    const existedCategory = await prisma.spotCategory.findMany({
+      where: {
+        spot: {
+          spotId,
+        },
+      },
+    });
+    if (existedCategory) {
+      existedCategory.map(async (spotCategory) => {
+        await prisma.spotCategory.delete({
+          where: {
+            spotCategoryId: spotCategory.spotCategoryId,
+          },
+        });
+      });
+    }
     const deleteSpot = await prisma.spot.delete({
       where: {
         spotId: spotId,
@@ -109,14 +125,17 @@ class SpotRepository {
         userId,
       },
     });
-    categories.map(async (category) => {
-      const spotCategory = await prisma.spotCategory.create({
-        data: {
-          spotId: spot.spotId,
-          categoryId: Number(category),
-        },
+    console.log(categories);
+    if (categories) {
+      categories.map(async (category) => {
+        const spotCategory = await prisma.spotCategory.create({
+          data: {
+            spotId: spot.spotId,
+            categoryId: Number(category),
+          },
+        });
       });
-    });
+    }
   };
 
   // 명소 사진 공개/비공개 전환
@@ -178,6 +197,47 @@ class SpotRepository {
         createdAt: 'desc',
       },
     });
+  };
+
+  // 명소 수정
+  updateSpot = async (extraInfo, spotId, categories) => {
+    const spot = await prisma.spot.update({
+      where: {
+        spotId,
+      },
+      data: {
+        ...(extraInfo && { extraInfo }),
+      },
+    });
+    // const existedCategory = await prisma.spotCategory.findMany({
+    //   where: {
+    //     spot: {
+    //       spotId,
+    //     },
+    //   },
+    // });
+    // console.log(existedCategory);
+    // if (categories) {
+    //   categories.map(async (category) => {
+    //     const spotCategory = await prisma.spotCategory.update({
+    //       data: {
+    //         spotId: spot.spotId,
+    //         categoryId: Number(category),
+    //       },
+    //     });
+    //   });
+    // }
+  };
+
+  // 내가 올린 명소인지
+  getMySpot = async (spotId, userId) => {
+    const spot = await prisma.spot.findFirst({
+      where: {
+        spotId,
+        userId,
+      },
+    });
+    return spot;
   };
 }
 

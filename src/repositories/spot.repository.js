@@ -155,19 +155,32 @@ class SpotRepository {
   getAllSpot = async (categories) => {
     console.log(categories);
     return await prisma.spot.findMany({
+      // where: {
+      //   isPublic: 'PUBLIC',
+      //   ...(Array.isArray(categories) &&
+      //     categories.length > 0 && {
+      //       AND: categories.map((id) => ({
+      //         SpotCategory: {
+      //           some: {
+      //             category: {
+      //               categoryId: Number(id),
+      //             },
+      //           },
+      //         },
+      //       })),
+      //     }),
+      // },
       where: {
         isPublic: 'PUBLIC',
         ...(Array.isArray(categories) &&
           categories.length > 0 && {
-            AND: categories.map((id) => ({
-              SpotCategory: {
-                some: {
-                  category: {
-                    categoryId: Number(id),
-                  },
+            SpotCategory: {
+              some: {
+                categoryId: {
+                  in: categories.map(Number),
                 },
               },
-            })),
+            },
           }),
       },
       select: {
@@ -238,6 +251,16 @@ class SpotRepository {
       },
     });
     return spot;
+  };
+
+  getCategoriesByIds = async (ids) => {
+    return await prisma.category.findMany({
+      where: {
+        categoryId: {
+          in: ids,
+        },
+      },
+    });
   };
 }
 

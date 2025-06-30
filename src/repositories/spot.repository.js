@@ -206,8 +206,11 @@ class SpotRepository {
           },
         },
       },
+      cursor: { spotId: 1 },
+      take: 10,
+      skip: 1,
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
     });
   };

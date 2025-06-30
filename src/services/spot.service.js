@@ -166,18 +166,8 @@ class SpotService {
         ? [categoryList]
         : categoryList;
 
-    // const categories = existedCategory
-    //   ? await Promise.all(
-    //       existedCategory.map(async (category) => {
-    //         const existedCategory =
-    //           await this.categoryRepository.getOneCategory(+category);
-    //         if (!existedCategory)
-    //           throw new NotFoundError('존재하지 않는 카테고리입니다.');
-    //       }),
-    //     )
-    //   : null;
     if (existedCategory) {
-      const categories = await this.categoryRepository.getCategoriesByIds(
+      const categories = await this.spotRepository.getCategoriesByIds(
         existedCategory.map(Number),
       );
 

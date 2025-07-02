@@ -34,6 +34,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "seed": "node prisma/seed.js"
   }
 }

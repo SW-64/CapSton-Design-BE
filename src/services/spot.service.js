@@ -166,15 +166,25 @@ class SpotService {
         ? [categoryList]
         : categoryList;
 
-    if (existedCategory) {
-      const categories = await this.spotRepository.getCategoriesByIds(
-        existedCategory.map(Number),
-      );
+    // if (existedCategory) {
+    //   const categories = await this.spotRepository.getCategoriesByIds(
+    //     existedCategory.map(Number),
+    //   );
 
-      if (categories.length !== existedCategory.length) {
-        throw new NotFoundError('존재하지 않는 카테고리입니다.');
-      }
-    }
+    //   if (categories.length !== existedCategory.length) {
+    //     throw new NotFoundError('존재하지 않는 카테고리입니다.');
+    //   }
+    // }
+    const categories = existedCategory
+      ? await Promise.all(
+          existedCategory.map(async (category) => {
+            const existedCategory =
+              await this.categoryRepository.getOneCategory(+category);
+            if (!existedCategory)
+              throw new NotFoundError('존재하지 않는 카테고리입니다.');
+          }),
+        )
+      : null;
     const getAllSpot = await this.spotRepository.getAllSpot(existedCategory);
     return getAllSpot;
   };

@@ -3,6 +3,9 @@ import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import SpotService from '../services/spot.service.js';
 import { KOREA_TOUR_DATA } from './../constants/env.constant.js';
 import axios from 'axios';
+
+let cachedSpots = null;
+let lastFetched = 0;
 class SpotController {
   spotService = new SpotService();
 
@@ -195,9 +198,9 @@ class SpotController {
           'User-Agent': 'Mozilla/5.0', // 💡 중요: 브라우저처럼 위장
         },
       });
-      console.log('✅ API 키:', KOREA_TOUR_DATA);
-      console.log('✅ 외부 API 응답:', JSON.stringify(response.data, null, 2));
+
       const data = response.data;
+      console.log(data);
       res.json(data.response.body.items.item); // 클라이언트에도 전송
     } catch (err) {
       next(err);

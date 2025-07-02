@@ -159,13 +159,15 @@ class SpotRepository {
         isPublic: 'PUBLIC',
         ...(Array.isArray(categories) &&
           categories.length > 0 && {
-            SpotCategory: {
-              some: {
-                categoryId: {
-                  in: categories.map(Number),
+            AND: categories.map((id) => ({
+              SpotCategory: {
+                some: {
+                  category: {
+                    categoryId: Number(id),
+                  },
                 },
               },
-            },
+            })),
           }),
       },
       select: {

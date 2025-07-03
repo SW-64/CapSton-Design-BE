@@ -3,9 +3,13 @@ import { prisma } from '../utils/prisma.util.js';
 class UserRepository {
   //내 정보 확인
   getMyInfo = async (email) => {
-    const getMyInfo = await prisma.user.findFirst({
+    const getMyInfo = await prisma.user.findUnique({
       where: {
         email,
+      },
+      select: {
+        password: true,
+        userId: true,
       },
     });
 

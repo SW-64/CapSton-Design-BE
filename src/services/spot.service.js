@@ -42,12 +42,7 @@ class SpotService {
   getBookmark = async (userId) => {
     const getBookmark = await this.spotRepository.getBookmark(userId);
 
-    const AllSpot = getBookmark.map((spot) => ({
-      spotId: spot.spotId,
-      userId: spot.userId,
-      type: spot.type,
-    }));
-    return AllSpot;
+    return getBookmark;
   };
 
   // 명소 북마크 삭제
@@ -166,25 +161,24 @@ class SpotService {
         ? [categoryList]
         : categoryList;
 
-    // if (existedCategory) {
-    //   const categories = await this.spotRepository.getCategoriesByIds(
-    //     existedCategory.map(Number),
-    //   );
-
-    //   if (categories.length !== existedCategory.length) {
-    //     throw new NotFoundError('존재하지 않는 카테고리입니다.');
-    //   }
-    // }
-    const categories = existedCategory
-      ? await Promise.all(
-          existedCategory.map(async (category) => {
-            const existedCategory =
-              await this.categoryRepository.getOneCategory(+category);
-            if (!existedCategory)
-              throw new NotFoundError('존재하지 않는 카테고리입니다.');
-          }),
-        )
-      : null;
+    if (existedCategory) {
+      const categories = await this.spotRepository.getCategoriesByIds(
+        existedCategory.map(Number),
+      );
+      if (categories.length !== existedCategory.length) {
+        throw new NotFoundError('존재하지 않는 카테고리입니다.');
+      }
+    }
+    // const categories = existedCategory
+    //   ? await Promise.all(
+    //       existedCategory.map(async (category) => {
+    //         const existedCategory =
+    //           await this.categoryRepository.getOneCategory(+category);
+    //         if (!existedCategory)
+    //           throw new NotFoundError('존재하지 않는 카테고리입니다.');
+    //       }),
+    //     )
+    //   : null;
     const getAllSpot = await this.spotRepository.getAllSpot(existedCategory);
     return getAllSpot;
   };

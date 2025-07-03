@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   const password = await bcrypt.hash('1234', 10);
 
-  for (let i = 21; i <= 50; i++) {
+  for (let i = 51; i <= 72; i++) {
     for (let j = 1; j <= 3; j++) {
       await prisma.interaction.create({
         data: {

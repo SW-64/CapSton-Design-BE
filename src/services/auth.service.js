@@ -50,7 +50,10 @@ class AuthService {
   signIn = async (email, password) => {
     // 해당되는 email이 없다면 에러 반환
     const existedEmail = await this.userRepository.getMyInfo(email);
-    if (!existedEmail || !bcrypt.compareSync(password, existedEmail.password)) {
+    if (
+      !existedEmail ||
+      !(await bcrypt.compare(password, existedEmail.password))
+    ) {
       throw new BadRequestError(MESSAGES.AUTH.SIGN_IN.NOT_FOUND);
     }
     const accessToken = await this.authRepository.tokenToRedis(

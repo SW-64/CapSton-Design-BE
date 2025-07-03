@@ -82,6 +82,11 @@ class SpotRepository {
         userId,
         type: 'BOOKMARK',
       },
+      select: {
+        spotId: true,
+        userId: true,
+        type: true,
+      },
     });
   };
 
@@ -152,30 +157,44 @@ class SpotRepository {
   };
 
   // 사용자가 올린 명소 조회
-  getAllSpot = async (categories) => {
-    console.log(categories);
-    return await prisma.spot.findMany({
+  getAllSpot = async (categories, page = 1, pageSize = 10) => {
+    const offset = (page - 1) * pageSize;
+
+    // 1️⃣ SpotCategory에서 카테고리 일치하는 SpotId 가져오기
+    const spotIds = await prisma.spotCategory.findMany({
       where: {
+        category: {
+          categoryId: { in: categories.map(Number) },
+        },
+      },
+      select: { spotId: true },
+    });
+
+    // 2️⃣ SpotId별 카테고리 개수 세기
+    const spotIdCounts = spotIds.reduce((acc, { spotId }) => {
+      acc[spotId] = (acc[spotId] || 0) + 1;
+      return acc;
+    }, {});
+
+    // 3️⃣ 모든 카테고리가 속한 SpotId만 추출
+    const matchedSpotIds = Object.entries(spotIdCounts)
+      .filter(([_, count]) => count === categories.length)
+      .map(([spotId]) => Number(spotId));
+
+    if (matchedSpotIds.length === 0) return []; // 없으면 바로 반환
+
+    // 4️⃣ 해당 SpotId로 Spot 조회
+    const spots = await prisma.spot.findMany({
+      where: {
+        spotId: { in: matchedSpotIds },
         isPublic: 'PUBLIC',
-        ...(Array.isArray(categories) &&
-          categories.length > 0 && {
-            AND: categories.map((id) => ({
-              SpotCategory: {
-                some: {
-                  category: {
-                    categoryId: Number(id),
-                  },
-                },
-              },
-            })),
-          }),
       },
       select: {
         spotId: true,
         spotName: true,
         imageUrl: true,
         extraInfo: true,
-        userId: true,
+        createdAt: true,
         user: {
           select: {
             nickName: true,
@@ -186,19 +205,18 @@ class SpotRepository {
           select: {
             category: {
               select: {
-                categoryId: true,
                 name: true,
               },
             },
           },
         },
       },
-      take: 10,
-      skip: 1,
-      orderBy: {
-        createdAt: 'asc',
-      },
+      orderBy: { createdAt: 'asc' },
+      skip: offset,
+      take: pageSize,
     });
+
+    return spots;
   };
 
   // 명소 수정

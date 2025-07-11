@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { STABILITY_API_KEY } from '../constants/env.constant.js';
 import { NotFoundError } from '../errors/http.error.js';
 import { prisma } from '../utils/prisma.util.js';
 
@@ -121,7 +123,6 @@ class SpotRepository {
 
   // 명소 등록
   setSpot = async (spotName, imageUrl, extraInfo, userId, categories) => {
-    console.log(imageUrl);
     const spot = await prisma.spot.create({
       data: {
         spotName,
@@ -130,7 +131,6 @@ class SpotRepository {
         userId,
       },
     });
-    console.log(categories);
     if (categories) {
       categories.map(async (category) => {
         const spotCategory = await prisma.spotCategory.create({
@@ -254,6 +254,27 @@ class SpotRepository {
       },
     });
   };
+
+  // // 명소 추천 AI
+  // recommendSpot = async (prompt) => {
+  //   const response = await axios.post(
+  //     'https://api.stability.ai/v2beta/stable-image/generate/core',
+  //     {
+  //       prompt,
+  //       steps: 30,
+  //       width: 512,
+  //       height: 512,
+  //       cfg_scale: 7,
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${STABILITY_API_KEY}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     },
+  //   );
+  //   return response.data.artifacts[0].url; // 생성된 이미지 URL 반환
+  // };
 }
 
 export default SpotRepository;

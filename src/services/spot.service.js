@@ -2,7 +2,8 @@ import { BadRequestError, NotFoundError } from '../errors/http.error.js';
 import CategoryRepository from '../repositories/categroy.repository.js';
 import SpotRepository from '../repositories/spot.repository.js';
 import UserRepository from '../repositories/user.repository.js';
-
+import fs from 'fs';
+// import blipModel from '../utils/blipClient.js';
 class SpotService {
   spotRepository = new SpotRepository();
   userRepository = new UserRepository();
@@ -115,17 +116,19 @@ class SpotService {
     if (existedSpot)
       throw new BadRequestError('MESSAGES.CITY.SET_SPOT.EXISTED_SPOT_NAME');
 
-    const categories = categoryList
-      ? await Promise.all(
-          categoryList.map(async (category) => {
-            const categoryList =
-              await this.categoryRepository.getOneCategory(+category);
-            if (!categoryList)
-              throw new NotFoundError('존재하지 않는 카테고리입니다.');
-          }),
-        )
-      : null;
-    console.log(categoryList);
+    const existedCategory =
+      !Array.isArray(categoryList) && categoryList
+        ? [categoryList]
+        : categoryList;
+
+    if (existedCategory) {
+      const categories = await this.spotRepository.getCategoriesByIds(
+        existedCategory.map(Number),
+      );
+      if (categories.length !== existedCategory.length) {
+        throw new NotFoundError('존재하지 않는 카테고리입니다.');
+      }
+    }
     const setSpot = await this.spotRepository.setSpot(
       spotName,
       imageUrl,
@@ -204,6 +207,13 @@ class SpotService {
       categories,
     );
     return updateSpot;
+  };
+
+  // AI 명소 리뷰
+  evaluateImage = async (filePath) => {
+    const buffer = fs.readFileSync(filePath);
+    const result = await blipModel(buffer);
+    return result.generated_text;
   };
 }
 

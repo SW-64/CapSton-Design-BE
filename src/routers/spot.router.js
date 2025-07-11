@@ -5,7 +5,7 @@ import imageUploader from '../middlewares/image-upload.middleware.js';
 import { prisma } from '../utils/prisma.util.js';
 import express from 'express';
 import { requireAccessToken } from './../middlewares/require-access-token.middlewares.js';
-
+import multer from 'multer';
 const spotRouter = express.Router();
 const spotRepository = new SpotRepository(prisma);
 const spotService = new SpotService(spotRepository);
@@ -63,5 +63,14 @@ spotRouter.post(
 
 // 명소 수정
 spotRouter.patch('/:spotId', requireAccessToken, spotController.updateSpot);
+
+// AI 명소 리뷰
+const upload = multer({ dest: 'uploads/' });
+
+spotRouter.post(
+  '/evaluate',
+  upload.single('photo'),
+  spotController.evaluateImage,
+);
 
 export { spotRouter };

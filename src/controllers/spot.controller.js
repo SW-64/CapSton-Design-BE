@@ -1,7 +1,10 @@
 import fetch from 'node-fetch';
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import SpotService from '../services/spot.service.js';
-import { KOREA_TOUR_DATA } from './../constants/env.constant.js';
+import {
+  CLOUDFRONT_URI,
+  KOREA_TOUR_DATA,
+} from './../constants/env.constant.js';
 import axios from 'axios';
 
 let cachedSpots = null;
@@ -130,10 +133,10 @@ class SpotController {
   setSpot = async (req, res, next) => {
     try {
       //사진을 저장할 파일 위치 경로
-      const imageUrl = req.files[0].location;
+
+      const imageUrl = CLOUDFRONT_URI + '/' + req.files[0].key;
       const userId = req.user.userId;
       const { spotName, extraInfo, categoryList } = req.body;
-      console.log(req.body);
       const setSpot = await this.spotService.setSpot(
         spotName,
         imageUrl,
@@ -143,7 +146,7 @@ class SpotController {
       );
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
-        message: 'MESSAGES.CITY.SET_SPOT.SUCCEED',
+        message: '명소 등록 성공',
         data: setSpot,
       });
     } catch (err) {
@@ -200,7 +203,6 @@ class SpotController {
       });
 
       const data = response.data;
-      console.log(data);
       res.json(data.response.body.items.item); // 클라이언트에도 전송
     } catch (err) {
       next(err);
@@ -227,6 +229,18 @@ class SpotController {
       });
     } catch (err) {
       next(err);
+    }
+  };
+
+  // AI 명소 리뷰
+  evaluateImage = async (req, res, next) => {
+    try {
+      const filePath = req.file.path;
+      const result = await this.spotService.evaluateImage(filePath);
+      res.json({ evaluation: result });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: '이미지 평가 실패' });
     }
   };
 }

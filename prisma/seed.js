@@ -4,9 +4,19 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  const password = await bcrypt.hash('1234', 10);
-
-  for (let i = 51; i <= 72; i++) {
+  const password = await bcrypt.hash('1234', 8);
+  // for (let j = 73; j <= 522; j++) {
+  //   await prisma.user.create({
+  //     data: {
+  //       email: `user${j}@example.com`,
+  //       password: password,
+  //       name: `user${j}`,
+  //       nickName: `user${j}`,
+  //       profile: `https://example.com/profile/user${j}.jpg`,
+  //     },
+  //   });
+  // }
+  for (let i = 124; i <= 573; i++) {
     for (let j = 1; j <= 3; j++) {
       await prisma.interaction.create({
         data: {

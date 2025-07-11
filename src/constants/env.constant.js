@@ -17,3 +17,6 @@ export const ELASTICACHE_PASSWORD = process.env.ELASTICACHE_PASSWORD;
 export const PUBLIC_DATA_PORTAL = process.env.PUBLIC_DATA_PORTAL;
 export const SEOUL_OPEN_DATA = process.env.SEOUL_OPEN_DATA;
 export const KOREA_TOUR_DATA = process.env.KOREA_TOUR_DATA;
+export const STABILITY_API_KEY = process.env.STABILITY_API_KEY;
+export const HF_ACCESS_TOKEN = process.env.HF_ACCESS_TOKEN;
+export const CLOUDFRONT_URI = process.env.CLOUDFRONT_URI;

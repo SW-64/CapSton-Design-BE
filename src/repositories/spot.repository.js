@@ -201,6 +201,9 @@ class SpotRepository {
       orderBy: {
         createdAt: 'desc',
       },
+
+      skip: 1, // cursor 포함하지 않도록 1개 skip
+      take: 20, // LIMIT
     });
   };
 

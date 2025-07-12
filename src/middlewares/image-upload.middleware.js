@@ -39,7 +39,7 @@ const imageUploader = multer({
       if (req.params.cityId == 2) {
         image = 'incheon';
       } else {
-        image = 'image';
+        image = 'incheon';
       }
       cb(null, `${image}/${fileName}`);
     },
